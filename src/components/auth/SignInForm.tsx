@@ -229,45 +229,11 @@ export default function LoginForm() {
             <div className="h-px flex-1 bg-neutral-200" />
           </div>
 
-          {/* Socials */}
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => alert("TODO: Google OAuth")}
-              className="group inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2 font-medium text-neutral-800 transition hover:bg-neutral-50"
-            >
-              {/* Google glyph */}
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                <path
-                  fill="#EA4335"
-                  d="M12 10.2v3.9h5.5c-.2 1.2-1.6 3.6-5.5 3.6-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.2.8 3.9 1.4l2.7-2.7C16.8 3.2 14.6 2.3 12 2.3 6.9 2.3 2.7 6.5 2.7 11.6S6.9 20.9 12 20.9c6.2 0 9.3-4.3 9.3-8.2 0-.6-.1-1-.2-1.5H12Z"
-                />
-                <path fill="#4285F4" d="M21.3 12.7c0-.5-.1-.9-.2-1.3H12v3.9h5.2c-.3 1.6-1.8 2.7-3.2 2.7" />
-                <path fill="#34A853" d="M8.8 14.3c-.2-.5-.4-1-.4-1.6s.1-1.1.4-1.6V7.1H5.4a8.4 8.4 0 0 0 0 9l3.4-1.8Z" />
-                <path fill="#FBBC05" d="M12 6.4c1 0 2 .4 2.7 1.1l2.1-2.1A7.4 7.4 0 0 0 12 3.9c-2 0-3.8.7-5.1 1.9l3.4 3.3c.7-.8 1.7-1.3 2.7-1.3Z" />
-              </svg>
-              Google
-            </button>
-            <button
-              type="button"
-              onClick={() => alert("TODO: Facebook OAuth")}
-              className="group inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2 font-medium text-neutral-800 transition hover:bg-neutral-50"
-            >
-              {/* Facebook glyph */}
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                <path
-                  fill="#1877F2"
-                  d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.2 10.44 22v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.5-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.45h-1.25c-1.23 0-1.62.77-1.62 1.56v1.87h2.76l-.44 2.9h-2.32V22C18.34 21.2 22 17.08 22 12.06Z"
-                />
-              </svg>
-              Facebook
-            </button>
-          </div>
 
           {/* Foot note */}
           <p className="mt-4 text-center text-sm text-neutral-600">
             Chưa có tài khoản?{" "}
-            <a href="/register" className="font-semibold text-orange-600 hover:underline">
+            <a href="/signup" className="font-semibold text-orange-600 hover:underline">
               Đăng ký ngay
             </a>
           </p>

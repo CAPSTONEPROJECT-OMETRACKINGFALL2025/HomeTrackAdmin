@@ -7,9 +7,21 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import Image from "next/image";
 
+function stringAvatar(name: string) {
+  const parts = name.split(" ");
+  let initials = parts[0][0] || "";
+  if (parts[1]) initials += parts[1][0];
+  return initials.toUpperCase();
+}
 
-export default function UserMetaCard() {
+export default function UserMetaCard({ user }: { user: any }) {
   const { isOpen, openModal, closeModal } = useModal();
+  const displayName = user?.username || user?.email?.split("@")[0] || "Guest";
+  const email = user?.email || "unknown@email.com";
+  const hasAvatar = !!user?.avatarUrl;
+  const initials = stringAvatar(displayName);
+  const role = user?.roleId === 1 ? "Admin" : (user?.roleId === 2 ? "Staff" : "User");
+
   const handleSave = () => {
     // Handle save logic here
     console.log("Saving changes...");
@@ -20,29 +32,29 @@ export default function UserMetaCard() {
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
-            <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-              <Image
-                width={80}
-                height={80}
-                src="/images/user/owner.jpg"
-                alt="user"
-              />
+            <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800 bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-700">
+              {/* Show initials if no avatar image */}
+              {hasAvatar ? (
+                <img src={user.avatarUrl} alt="user avatar" width={80} height={80} className="object-cover w-20 h-20 rounded-full" />
+              ) : initials}
             </div>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
-                Musharof Chowdhury
+                {displayName}
               </h4>
               <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Team Manager
+                <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                  {role}
                 </p>
                 <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Arizona, United States
+                  {/* Default location or from user.raw.location */}
+                  {user?.raw?.location || "Unknown Location"}
                 </p>
               </div>
             </div>
             <div className="flex items-center order-2 gap-2 grow xl:order-3 xl:justify-end">
+              {/* Social links fallback - could use user info in real use */}
               <a        
         target="_blank"
         rel="noreferrer" href='https://www.facebook.com/PimjoHQ' className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">

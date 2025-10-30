@@ -15,7 +15,8 @@ export async function login(payload: LoginPayload): Promise<{
   };
 }> {
   // api.post trả về body đã parse — KHÔNG phải axios response
-  const res = await api.post<any>("/auth/login", payload);
+  const response = await api.post<any>("/auth/login", payload);
+  const res = response.data ?? response;
 
   const token: string = res?.token ?? res?.accessToken ?? "";
   if (!token) throw new Error("Thiếu token từ server.");
