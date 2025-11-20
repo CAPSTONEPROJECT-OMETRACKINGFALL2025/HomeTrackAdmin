@@ -4,7 +4,8 @@ import { useSidebar } from "@/context/SidebarContext";
 import AppHeader from "@/layout/AppHeader";
 import AppSidebar from "@/layout/AppSidebar";
 import Backdrop from "@/layout/Backdrop";
-import React from "react";
+import { useSessionStore } from "@/store/session";
+import React, { useEffect } from "react";
 
 export default function AdminLayout({
   children,
@@ -12,6 +13,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+  const hydrate = useSessionStore((s) => s.hydrate);
+
+  useEffect(() => {
+    // Restore user session from localStorage on mount
+    hydrate();
+  }, [hydrate]);
 
   // Dynamic class for main content margin based on sidebar state
   const mainContentMargin = isMobileOpen

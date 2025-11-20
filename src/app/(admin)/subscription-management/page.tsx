@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errorHandler";
 import { Modal } from "@/components/ui/modal";
 import Button from "@/components/ui/button/Button";
 import { PencilIcon } from "@/icons";
@@ -26,9 +27,18 @@ export default function SubscriptionManagement() {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
+    document.title = "Quản lý Gói Đăng Ký - HomeTrack Admin";
+  }, []);
+
+  useEffect(() => {
     api.get<Subscription[]>(API)
       .then(setSubs)
-      .catch(() => setSubs([]));
+      .catch((error) => {
+        console.error("Failed to fetch subscriptions:", error);
+        const errorMessage = getErrorMessage(error, "Không thể tải danh sách gói đăng ký");
+        alert(errorMessage);
+        setSubs([]);
+      });
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,13 +51,20 @@ export default function SubscriptionManagement() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (editing) {
-      await api.put(`${API}/${editing}`, form);
-    } else {
-      await api.post(API, form);
+    try {
+      if (editing) {
+        await api.put(`${API}/${editing}`, form);
+      } else {
+        await api.post(API, form);
+      }
+      setIsModalOpen(false);
+      const updated = await api.get<Subscription[]>(API);
+      setSubs(updated);
+    } catch (error) {
+      console.error("Failed to save subscription:", error);
+      const errorMessage = getErrorMessage(error, "Không thể lưu gói đăng ký. Vui lòng thử lại.");
+      alert(errorMessage);
     }
-    setIsModalOpen(false);
-    api.get<Subscription[]>(API).then(setSubs);
   };
 
   const renderActive = (isActive: boolean) => (
@@ -55,26 +72,26 @@ export default function SubscriptionManagement() {
       isActive
         ? "bg-success-100 text-success-700 dark:bg-success-500/10 dark:text-success-400"
         : "bg-gray-100 text-gray-600 dark:bg-white/5 dark:text-gray-400"
-    }`}>{isActive ? "Active" : "Inactive"}</span>
+    }`}>{isActive ? "Hoạt động" : "Không hoạt động"}</span>
   );
 
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Subscription Management</h1>
-        <Button size="sm" onClick={openAdd}>Add Price</Button>
+        <h1 className="text-xl font-bold">Quản lý Gói Đăng Ký</h1>
+        <Button size="sm" onClick={openAdd}>Thêm Giá</Button>
       </div>
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-theme-md">
           <thead className="bg-gray-50 dark:bg_white/[0.02]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">PlanId</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Period</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Duration (days)</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount (VND)</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Active</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID Gói</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Chu Kỳ</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Thời Hạn (ngày)</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Số Tiền (VND)</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trạng Thái</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Thao Tác</th>
             </tr>
           </thead>
           <tbody>
@@ -89,7 +106,7 @@ export default function SubscriptionManagement() {
                   <td className="px-6 py-4 whitespace-nowrap">{renderActive(row.isActive)}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="ml-auto flex items-center justify-end gap-2">
-                      <button aria-label="Edit" className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" onClick={() => openEdit(row)}>
+                      <button aria-label="Sửa" className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" onClick={() => openEdit(row)}>
                         <PencilIcon />
                       </button>
                     </div>
@@ -102,18 +119,18 @@ export default function SubscriptionManagement() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal} className="max-w-[680px] p-6 lg:p-8">
-        <h4 className="font-semibold text-gray-800 mb-5 text-title-sm dark:text-white/90">{editing ? "Edit Price" : "Add Price"}</h4>
+        <h4 className="font-semibold text-gray-800 mb-5 text-title-sm dark:text-white/90">{editing ? "Sửa Giá" : "Thêm Giá"}</h4>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input name="planId" value={form.planId} onChange={handleInputChange} placeholder="Plan ID" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
-            <input name="period" type="number" value={form.period} onChange={handleInputChange} placeholder="Period" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
-            <input name="durationInDays" type="number" value={form.durationInDays} onChange={handleInputChange} placeholder="Days" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
-            <input name="amountVnd" type="number" value={form.amountVnd} onChange={handleInputChange} placeholder="Amount VND" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
-            <label className="flex gap-2 items-center"><input type="checkbox" name="isActive" checked={form.isActive} onChange={handleInputChange}/>Active</label>
+            <input name="planId" value={form.planId} onChange={handleInputChange} placeholder="ID Gói" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
+            <input name="period" type="number" value={form.period} onChange={handleInputChange} placeholder="Chu Kỳ" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
+            <input name="durationInDays" type="number" value={form.durationInDays} onChange={handleInputChange} placeholder="Số Ngày" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
+            <input name="amountVnd" type="number" value={form.amountVnd} onChange={handleInputChange} placeholder="Số Tiền VND" className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100" required />
+            <label className="flex gap-2 items-center"><input type="checkbox" name="isActive" checked={form.isActive} onChange={handleInputChange}/>Hoạt động</label>
           </div>
           <div className="flex items-center justify-end gap-3 pt-2">
-            <Button size="sm" variant="outline" onClick={closeModal}>Cancel</Button>
-            <Button size="sm" type="submit">Save</Button>
+            <Button size="sm" variant="outline" onClick={closeModal}>Hủy</Button>
+            <Button size="sm" type="submit">Lưu</Button>
           </div>
         </form>
       </Modal>

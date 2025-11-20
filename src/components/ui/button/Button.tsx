@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      "bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:disabled:bg-brand-900/30",
+      "bg-orange-500 text-white shadow-theme-xs hover:bg-orange-600 disabled:bg-orange-300 dark:bg-orange-400 dark:text-white dark:hover:bg-orange-300 dark:disabled:bg-orange-900/30",
     outline:
       "bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-300 dark:ring-gray-700 dark:hover:bg-gray-800 dark:hover:text-white/90",
   } as const;
