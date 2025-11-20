@@ -22,11 +22,17 @@ type UserWithAddress = {
 
 export default function UserAddressCard({ user }: { user: UserWithAddress | null }) {
   const { isOpen, openModal, closeModal } = useModal();
-  const address = user?.raw?.address || {};
-  const country = address.country || "Unknown";
-  const cityState = address.cityState || "Unknown";
-  const postalCode = address.postalCode || "-";
-  const taxId = address.taxId || "-";
+  const address = (user?.raw && typeof user.raw === "object" && "address" in user.raw && typeof user.raw.address === "object" ? user.raw.address : {}) as {
+    country?: string;
+    cityState?: string;
+    postalCode?: string;
+    taxId?: string;
+    [key: string]: unknown;
+  };
+  const country = address?.country || "Unknown";
+  const cityState = address?.cityState || "Unknown";
+  const postalCode = address?.postalCode || "-";
+  const taxId = address?.taxId || "-";
   const handleSave = () => {
     // Handle save logic here
     console.log("Saving changes...");

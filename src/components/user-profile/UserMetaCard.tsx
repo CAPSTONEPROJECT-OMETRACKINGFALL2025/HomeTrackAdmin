@@ -18,6 +18,10 @@ type UserMeta = {
   email?: string | null;
   roleId?: number | null;
   avatarUrl?: string | null;
+  raw?: {
+    location?: string;
+    [key: string]: unknown;
+  };
   [key: string]: unknown;
 };
 
@@ -56,7 +60,7 @@ export default function UserMetaCard({ user }: { user: UserMeta | null }) {
                 <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   {/* Default location or from user.raw.location */}
-                  {user?.raw?.location || "Unknown Location"}
+                  {(user?.raw && typeof user.raw === "object" && "location" in user.raw ? String(user.raw.location) : null) || "Unknown Location"}
                 </p>
               </div>
             </div>

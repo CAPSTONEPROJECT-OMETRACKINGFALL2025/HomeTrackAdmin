@@ -24,6 +24,11 @@ type UserInfo = {
   username?: string | null;
   phone?: string | null;
   dateOfBirth?: string | null;
+  raw?: {
+    bio?: string;
+    phone?: string;
+    [key: string]: unknown;
+  };
   [key: string]: unknown;
 };
 
@@ -32,8 +37,8 @@ export default function UserInfoCard({ user }: { user: UserInfo | null }) {
   const email = user?.email || "unknown@email.com";
   const username = user?.username || user?.email?.split("@")[0] || "Unknown";
   const [firstName, lastName] = getNames(username || email);
-  const bio = user?.raw?.bio || "N/A";
-  const phone = user?.raw?.phone || "N/A";
+  const bio = (user?.raw && typeof user.raw === "object" && "bio" in user.raw ? String(user.raw.bio) : null) || "N/A";
+  const phone = (user?.raw && typeof user.raw === "object" && "phone" in user.raw ? String(user.raw.phone) : null) || user?.phone || "N/A";
   const handleSave = () => {
     // Handle save logic here
     console.log("Saving changes...");
