@@ -321,7 +321,7 @@ export default function InvoiceManagement() {
               value={filterOrderCode}
               onChange={(e) => setFilterOrderCode(e.target.value)}
               placeholder="Tìm kiếm mã đơn hàng..."
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
 
@@ -333,7 +333,7 @@ export default function InvoiceManagement() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
               <option value="all">Tất cả Trạng Thái</option>
               <option value="0">Chờ thanh toán</option>
@@ -351,7 +351,7 @@ export default function InvoiceManagement() {
               type="date"
               value={filterDateFrom}
               onChange={(e) => setFilterDateFrom(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
 
@@ -364,7 +364,7 @@ export default function InvoiceManagement() {
               type="date"
               value={filterDateTo}
               onChange={(e) => setFilterDateTo(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
         </div>
@@ -378,7 +378,7 @@ export default function InvoiceManagement() {
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <div className="flex flex-col items-center gap-3">
-            <div className="h-8 w-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="h-8 w-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-600 dark:text-gray-400">Đang tải đơn hàng...</p>
           </div>
         </div>
@@ -532,7 +532,7 @@ export default function InvoiceManagement() {
                       setItemsPerPage(Number(e.target.value));
                       setCurrentPage(1);
                     }}
-                    className="rounded-lg border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+                    className="rounded-lg border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
                   >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -571,7 +571,7 @@ export default function InvoiceManagement() {
                           onClick={() => setCurrentPage(pageNum)}
                           className={`min-w-[2rem] px-3 py-1.5 text-sm rounded-lg transition-colors ${
                             currentPage === pageNum
-                              ? "bg-brand-500 text-white"
+                              ? "bg-orange-500 text-white"
                               : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
                           }`}
                         >
@@ -601,7 +601,7 @@ export default function InvoiceManagement() {
         {orderDetail && (
           <div className="flex flex-col h-full max-h-[90vh]">
             {/* Header */}
-            <div className="bg-gradient-to-r from-brand-500 to-brand-600 dark:from-brand-600 dark:to-brand-700 px-6 lg:px-8 pt-8 pb-6">
+            <div className="bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 px-6 lg:px-8 pt-8 pb-6">
               <div className="flex items-start gap-6">
                 <div className="flex-1 pt-2">
                   <h4 className="text-2xl font-bold text-white mb-2">Đơn Hàng #{orderDetail.orderCode}</h4>
@@ -636,7 +636,7 @@ export default function InvoiceManagement() {
                     </div>
                     <div className="space-y-1">
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Số Tiền</p>
-                      <p className="text-sm text-gray-800 dark:text-white/90 font-semibold text-brand-600 dark:text-brand-400">
+                      <p className="text-sm text-gray-800 dark:text-white/90 font-semibold text-orange-600 dark:text-orange-400">
                         {formatCurrency(orderDetail.amountVnd)}
                       </p>
                     </div>

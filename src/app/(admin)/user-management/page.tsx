@@ -315,7 +315,7 @@ export default function UserManagement() {
               value={filterName}
               onChange={(e) => setFilterName(e.target.value)}
               placeholder="Tìm kiếm tên..."
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
 
@@ -329,7 +329,7 @@ export default function UserManagement() {
               value={filterEmail}
               onChange={(e) => setFilterEmail(e.target.value)}
               placeholder="Tìm kiếm email..."
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
 
@@ -341,7 +341,7 @@ export default function UserManagement() {
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
               <option value="all">Tất cả Vai Trò</option>
               <option value="1">Quản trị viên</option>
@@ -358,7 +358,7 @@ export default function UserManagement() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
               <option value="all">Tất cả Trạng Thái</option>
               <option value="active">Hoạt động</option>
@@ -374,7 +374,7 @@ export default function UserManagement() {
             <select
               value={filterVerify}
               onChange={(e) => setFilterVerify(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
               <option value="all">Tất cả</option>
               <option value="verified">Đã xác thực</option>
@@ -390,7 +390,7 @@ export default function UserManagement() {
             <select
               value={filterPremium}
               onChange={(e) => setFilterPremium(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
               <option value="all">Tất cả</option>
               <option value="premium">Premium</option>
@@ -408,7 +408,7 @@ export default function UserManagement() {
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <div className="flex flex-col items-center gap-3">
-            <div className="h-8 w-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="h-8 w-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-600 dark:text-gray-400">Đang tải người dùng...</p>
           </div>
         </div>
@@ -476,7 +476,7 @@ export default function UserManagement() {
                               onError={() => handleImageError(user.userId)}
                             />
                           ) : (
-                            <div className="h-8 w-8 rounded-full bg-brand-100 dark:bg-brand-500/20 flex items-center justify-center text-brand-600 dark:text-brand-400 font-medium text-xs flex-shrink-0">
+                            <div className="h-8 w-8 rounded-full bg-orange-100 dark:bg-orange-500/20 flex items-center justify-center text-orange-600 dark:text-orange-400 font-medium text-xs flex-shrink-0">
                               {getInitials(user.username)}
                             </div>
                           )}
@@ -582,7 +582,7 @@ export default function UserManagement() {
                       setItemsPerPage(Number(e.target.value));
                       setCurrentPage(1);
                     }}
-                    className="rounded-lg border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+                    className="rounded-lg border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
                   >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -621,7 +621,7 @@ export default function UserManagement() {
                           onClick={() => setCurrentPage(pageNum)}
                           className={`min-w-[2rem] px-3 py-1.5 text-sm rounded-lg transition-colors ${
                             currentPage === pageNum
-                              ? "bg-brand-500 text-white"
+                              ? "bg-orange-500 text-white"
                               : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
                           }`}
                         >
@@ -651,7 +651,7 @@ export default function UserManagement() {
         {userDetail && (
           <div className="flex flex-col h-full max-h-[90vh]">
             {/* Header with Profile */}
-            <div className="bg-gradient-to-r from-brand-500 to-brand-600 dark:from-brand-600 dark:to-brand-700 px-6 lg:px-8 pt-8 pb-6">
+            <div className="bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 px-6 lg:px-8 pt-8 pb-6">
               <div className="flex items-start gap-6">
                 <div className="relative">
                   {userDetail.pictureProfile && !imageErrors.has(userDetail.userId) ? (
@@ -734,7 +734,7 @@ export default function UserManagement() {
                     <div className="space-y-1">
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Vai Trò</p>
                       <div className="mt-1">
-                        <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-brand-100 text-brand-700 dark:bg-brand-500/20 dark:text-brand-400">
+                        <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400">
                           {userDetail.roleName} (ID: {userDetail.roleId})
                         </span>
                       </div>
@@ -775,7 +775,7 @@ export default function UserManagement() {
                         <div className="space-y-1">
                           <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Nhà</p>
                           <p className="text-sm text-gray-800 dark:text-white/90">
-                            <span className="font-semibold text-brand-600 dark:text-brand-400">{userDetail.houses.length}</span> nhà đã đăng ký
+                            <span className="font-semibold text-orange-600 dark:text-orange-400">{userDetail.houses.length}</span> nhà đã đăng ký
                           </p>
                         </div>
                       )}
@@ -804,7 +804,7 @@ export default function UserManagement() {
             <select 
               value={newRoleId} 
               onChange={(e) => setNewRoleId(Number(e.target.value))}
-              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+              className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
               <option value={1}>Quản trị viên</option>
               <option value={2}>Khách hàng</option>

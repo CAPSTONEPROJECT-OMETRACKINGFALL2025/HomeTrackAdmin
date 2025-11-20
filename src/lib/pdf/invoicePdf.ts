@@ -55,7 +55,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     };
 
     // Header Section
-    doc.setFillColor(70, 95, 255); // Brand color
+    doc.setFillColor(251, 101, 20); // Orange color (orange-500: #fb6514)
     doc.rect(0, 0, pageWidth, 40, "F");
     
     doc.setTextColor(255, 255, 255);
@@ -180,7 +180,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
 
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(70, 95, 255);
+    doc.setTextColor(251, 101, 20); // Orange color
     const amountText = new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",

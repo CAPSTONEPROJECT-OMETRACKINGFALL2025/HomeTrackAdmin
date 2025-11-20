@@ -16,7 +16,7 @@ export default function SidebarWidget() {
         href="https://HomeTrack.com/pricing"
         target="_blank"
         rel="nofollow"
-        className="flex items-center justify-center p-3 font-medium text-white rounded-lg bg-brand-500 text-theme-sm hover:bg-brand-600"
+        className="flex items-center justify-center p-3 font-medium text-white rounded-lg bg-orange-500 text-theme-sm hover:bg-orange-600"
       >
         Upgrade To Pro
       </a>
