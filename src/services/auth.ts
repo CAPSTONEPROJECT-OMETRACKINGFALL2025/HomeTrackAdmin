@@ -33,7 +33,24 @@ export async function login(payload: LoginPayload): Promise<{
     isPremium?: boolean | null;
     [k: string]: unknown;
   }>("/auth/login", payload);
-  const res: any = response.data ?? response;
+  const res = (response && typeof response === "object" && "data" in response ? response.data : response) as {
+    token?: string;
+    accessToken?: string;
+    user?: {
+      userId?: string | null;
+      email?: string | null;
+      username?: string | null;
+      roleId?: number | null;
+      isPremium?: boolean | null;
+      [k: string]: unknown;
+    };
+    userId?: string | null;
+    email?: string | null;
+    username?: string | null;
+    roleId?: number | null;
+    isPremium?: boolean | null;
+    [k: string]: unknown;
+  };
 
   const token: string = res?.token ?? res?.accessToken ?? "";
   if (!token) throw new Error("Thiếu token từ server.");

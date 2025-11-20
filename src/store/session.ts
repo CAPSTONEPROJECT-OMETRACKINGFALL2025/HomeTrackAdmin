@@ -114,7 +114,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
         roleId: saved.user?.roleId ?? null,
         token: saved.token,
         plan: isPremium ? "premium" : "basic",
-        raw: saved.user?.raw ?? null,
+        raw: saved.user?.raw ?? undefined,
       };
       set({ user: u });
       setAuthTokenStatic(u.token ?? null);
