@@ -26,6 +26,10 @@ export default function SubscriptionManagement() {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
+    document.title = "Subscription Management - HomeTrack Admin";
+  }, []);
+
+  useEffect(() => {
     api.get<Subscription[]>(API)
       .then(setSubs)
       .catch(() => setSubs([]));

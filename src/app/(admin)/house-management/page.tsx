@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "@/components/ui/modal";
 import Button from "@/components/ui/button/Button";
 import { useModal } from "@/hooks/useModal";
@@ -16,6 +16,10 @@ export default function HouseManagement() {
   const [houses, setHouses] = useState<House[]>(initialHouses);
   const [editing, setEditing] = useState<House|null>(null);
   const modal = useModal();
+
+  useEffect(() => {
+    document.title = "House Management - HomeTrack Admin";
+  }, []);
 
   const openEdit = (house: House) => { setEditing(house); modal.openModal(); };
   const closeEdit = () => { setEditing(null); modal.closeModal(); };
