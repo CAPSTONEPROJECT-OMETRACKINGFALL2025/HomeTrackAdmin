@@ -142,9 +142,16 @@ async function request<T = any>(
     const parsed = resText ? (isJson ? safeJson(resText) : resText) : null;
 
     if (!res.ok) {
-      const message =
-        (parsed && typeof parsed === "object" && (parsed as any).message) ||
-        `Request failed with status ${res.status}`;
+      // Check for .error field first, then .message, then fallback
+      let message = `Request failed with status ${res.status}`;
+      if (parsed && typeof parsed === "object") {
+        const errorObj = parsed as any;
+        if (errorObj.error) {
+          message = String(errorObj.error);
+        } else if (errorObj.message) {
+          message = String(errorObj.message);
+        }
+      }
       throw new ApiError(message, res.status, isJson ? (parsed as any) : { raw: resText });
     }
 

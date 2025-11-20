@@ -5,6 +5,7 @@ import Button from "@/components/ui/button/Button";
 import { useModal } from "@/hooks/useModal";
 import { EyeIcon, TrashBinIcon, CalenderIcon, TimeIcon, MoreDotIcon, ChevronLeftIcon, ArrowRightIcon, DownloadIcon, UserIcon, MailIcon } from "@/icons";
 import { api } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errorHandler";
 import { Dropdown } from "@/components/ui/dropdown/Dropdown";
 import { DropdownItem } from "@/components/ui/dropdown/DropdownItem";
 import { generateInvoicePDF } from "@/lib/pdf/invoicePdf";
@@ -73,6 +74,8 @@ export default function InvoiceManagement() {
       setOrders(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
+      const errorMessage = getErrorMessage(error, "Failed to load orders");
+      alert(errorMessage);
       setOrders([]);
     } finally {
       setLoading(false);
@@ -101,7 +104,8 @@ export default function InvoiceManagement() {
       detailModal.openModal();
     } catch (error) {
       console.error("Failed to fetch order detail:", error);
-      alert("Failed to load order details");
+      const errorMessage = getErrorMessage(error, "Failed to load order details");
+      alert(errorMessage);
     }
   };
 
@@ -142,7 +146,7 @@ export default function InvoiceManagement() {
       setOpenMenuId(null);
     } catch (error) {
       console.error("Failed to download invoice:", error);
-      const errorMessage = error instanceof Error ? error.message : "Failed to download invoice. Please try again.";
+      const errorMessage = getErrorMessage(error, "Failed to download invoice. Please try again.");
       alert(errorMessage);
     }
   };
@@ -770,7 +774,7 @@ export default function InvoiceManagement() {
                       try {
                         await generateInvoicePDF(orderDetail);
                       } catch (error) {
-                        const errorMessage = error instanceof Error ? error.message : "Failed to download invoice. Please try again.";
+                        const errorMessage = getErrorMessage(error, "Failed to download invoice. Please try again.");
                         alert(errorMessage);
                       }
                     }}

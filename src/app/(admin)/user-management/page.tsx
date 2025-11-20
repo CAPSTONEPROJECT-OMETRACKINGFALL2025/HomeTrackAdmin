@@ -5,6 +5,7 @@ import Button from "@/components/ui/button/Button";
 import { useModal } from "@/hooks/useModal";
 import { EyeIcon, PencilIcon, TrashBinIcon, UserIcon, MailIcon, CalenderIcon, TimeIcon, UserCircleIcon, MoreDotIcon, ChevronLeftIcon, ArrowRightIcon } from "@/icons";
 import { api } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errorHandler";
 import { Dropdown } from "@/components/ui/dropdown/Dropdown";
 import { DropdownItem } from "@/components/ui/dropdown/DropdownItem";
 
@@ -67,6 +68,8 @@ export default function UserManagement() {
       setUsers(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Failed to fetch users:", error);
+      const errorMessage = getErrorMessage(error, "Failed to load users");
+      alert(errorMessage);
       setUsers([]);
     } finally {
       setLoading(false);
@@ -80,7 +83,8 @@ export default function UserManagement() {
       detailModal.openModal();
     } catch (error) {
       console.error("Failed to fetch user detail:", error);
-      alert("Failed to load user details");
+      const errorMessage = getErrorMessage(error, "Failed to load user details");
+      alert(errorMessage);
     }
   };
 
@@ -92,7 +96,8 @@ export default function UserManagement() {
       setUsers(users.filter(u => u.userId !== userId));
     } catch (error) {
       console.error("Failed to delete user:", error);
-      alert("Failed to delete user");
+      const errorMessage = getErrorMessage(error, "Failed to delete user");
+      alert(errorMessage);
     }
   };
 
@@ -110,7 +115,8 @@ export default function UserManagement() {
       setChangingRole(null);
     } catch (error) {
       console.error("Failed to change role:", error);
-      alert("Failed to change user role");
+      const errorMessage = getErrorMessage(error, "Failed to change user role");
+      alert(errorMessage);
     }
   };
 

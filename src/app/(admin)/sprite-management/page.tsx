@@ -5,6 +5,7 @@ import Button from "@/components/ui/button/Button";
 import { useModal } from "@/hooks/useModal";
 import { PencilIcon, TrashBinIcon, MoreDotIcon, ChevronLeftIcon, ArrowRightIcon, PlusIcon } from "@/icons";
 import { api } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errorHandler";
 import { Dropdown } from "@/components/ui/dropdown/Dropdown";
 import { DropdownItem } from "@/components/ui/dropdown/DropdownItem";
 
@@ -57,6 +58,8 @@ export default function SpriteManagement() {
       setRoomItems(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Failed to fetch room items:", error);
+      const errorMessage = getErrorMessage(error, "Failed to load room items");
+      alert(errorMessage);
       setRoomItems([]);
     } finally {
       setLoading(false);
@@ -69,7 +72,8 @@ export default function SpriteManagement() {
       return response;
     } catch (error) {
       console.error("Failed to fetch room item detail:", error);
-      throw error;
+      const errorMessage = getErrorMessage(error, "Failed to load room item details");
+      throw new Error(errorMessage);
     }
   };
 
@@ -93,7 +97,8 @@ export default function SpriteManagement() {
       modal.openModal();
     } catch (error) {
       console.error("Failed to load room item for editing:", error);
-      alert("Failed to load room item details");
+      const errorMessage = getErrorMessage(error, "Failed to load room item details");
+      alert(errorMessage);
     }
   };
 
@@ -123,7 +128,8 @@ export default function SpriteManagement() {
       closeModal();
     } catch (error) {
       console.error("Failed to save room item:", error);
-      alert("Failed to save room item. Please try again.");
+      const errorMessage = getErrorMessage(error, "Failed to save room item. Please try again.");
+      alert(errorMessage);
     }
   };
 
@@ -135,7 +141,8 @@ export default function SpriteManagement() {
       await fetchRoomItems();
     } catch (error) {
       console.error("Failed to delete room item:", error);
-      alert("Failed to delete room item. Please try again.");
+      const errorMessage = getErrorMessage(error, "Failed to delete room item. Please try again.");
+      alert(errorMessage);
     }
   };
 

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errorHandler";
 import { Modal } from "@/components/ui/modal";
 import Button from "@/components/ui/button/Button";
 import { PencilIcon } from "@/icons";
@@ -32,7 +33,12 @@ export default function SubscriptionManagement() {
   useEffect(() => {
     api.get<Subscription[]>(API)
       .then(setSubs)
-      .catch(() => setSubs([]));
+      .catch((error) => {
+        console.error("Failed to fetch subscriptions:", error);
+        const errorMessage = getErrorMessage(error, "Failed to load subscriptions");
+        alert(errorMessage);
+        setSubs([]);
+      });
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,13 +51,20 @@ export default function SubscriptionManagement() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (editing) {
-      await api.put(`${API}/${editing}`, form);
-    } else {
-      await api.post(API, form);
+    try {
+      if (editing) {
+        await api.put(`${API}/${editing}`, form);
+      } else {
+        await api.post(API, form);
+      }
+      setIsModalOpen(false);
+      const updated = await api.get<Subscription[]>(API);
+      setSubs(updated);
+    } catch (error) {
+      console.error("Failed to save subscription:", error);
+      const errorMessage = getErrorMessage(error, "Failed to save subscription. Please try again.");
+      alert(errorMessage);
     }
-    setIsModalOpen(false);
-    api.get<Subscription[]>(API).then(setSubs);
   };
 
   const renderActive = (isActive: boolean) => (
