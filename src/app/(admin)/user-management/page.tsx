@@ -54,7 +54,7 @@ export default function UserManagement() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    document.title = "User Management - HomeTrack Admin";
+    document.title = "Quản lý Người Dùng - HomeTrack Admin";
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function UserManagement() {
       setUsers(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Failed to fetch users:", error);
-      const errorMessage = getErrorMessage(error, "Failed to load users");
+      const errorMessage = getErrorMessage(error, "Không thể tải danh sách người dùng");
       alert(errorMessage);
       setUsers([]);
     } finally {
@@ -83,20 +83,20 @@ export default function UserManagement() {
       detailModal.openModal();
     } catch (error) {
       console.error("Failed to fetch user detail:", error);
-      const errorMessage = getErrorMessage(error, "Failed to load user details");
+      const errorMessage = getErrorMessage(error, "Không thể tải chi tiết người dùng");
       alert(errorMessage);
     }
   };
 
   const handleDelete = async (userId: string) => {
-    if (!confirm("Are you sure you want to delete this user?")) return;
+    if (!confirm("Bạn có chắc chắn muốn xóa người dùng này?")) return;
     try {
       // TODO: Replace with actual delete API endpoint when available
       await api.del(`/api/Auth/delete/${userId}`);
       setUsers(users.filter(u => u.userId !== userId));
     } catch (error) {
       console.error("Failed to delete user:", error);
-      const errorMessage = getErrorMessage(error, "Failed to delete user");
+      const errorMessage = getErrorMessage(error, "Không thể xóa người dùng");
       alert(errorMessage);
     }
   };
@@ -115,7 +115,7 @@ export default function UserManagement() {
       setChangingRole(null);
     } catch (error) {
       console.error("Failed to change role:", error);
-      const errorMessage = getErrorMessage(error, "Failed to change user role");
+      const errorMessage = getErrorMessage(error, "Không thể thay đổi vai trò người dùng");
       alert(errorMessage);
     }
   };
@@ -151,7 +151,7 @@ export default function UserManagement() {
       <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
         isActive ? variants[variant] : "bg-red-100 text-red-600 dark:bg-red/5 dark:text-red-400"
       }`}>
-        {isActive ? label : ` In${label}`}
+        {isActive ? label : ` Không ${label}`}
       </span>
     );
   };
@@ -286,13 +286,13 @@ export default function UserManagement() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">User Management</h1>
+        <h1 className="text-xl font-bold">Quản lý Người Dùng</h1>
       </div>
 
       {/* Filters Section */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-theme-md p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Filters</h2>
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Bộ lọc</h2>
           {hasActiveFilters && (
             <Button
               size="sm"
@@ -300,7 +300,7 @@ export default function UserManagement() {
               onClick={handleClearFilters}
               className="text-xs"
             >
-              Clear All
+              Xóa tất cả
             </Button>
           )}
         </div>
@@ -308,13 +308,13 @@ export default function UserManagement() {
           {/* Filter by Name */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Name
+              Theo Tên
             </label>
             <input
               type="text"
               value={filterName}
               onChange={(e) => setFilterName(e.target.value)}
-              placeholder="Search name..."
+              placeholder="Tìm kiếm tên..."
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
@@ -322,13 +322,13 @@ export default function UserManagement() {
           {/* Filter by Email */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Email
+              Theo Email
             </label>
             <input
               type="text"
               value={filterEmail}
               onChange={(e) => setFilterEmail(e.target.value)}
-              placeholder="Search email..."
+              placeholder="Tìm kiếm email..."
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
@@ -336,71 +336,71 @@ export default function UserManagement() {
           {/* Filter by Role */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Role
+              Theo Vai Trò
             </label>
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
-              <option value="all">All Roles</option>
-              <option value="1">Admin</option>
-              <option value="2">Customer</option>
-              <option value="3">User</option>
+              <option value="all">Tất cả Vai Trò</option>
+              <option value="1">Quản trị viên</option>
+              <option value="2">Khách hàng</option>
+              <option value="3">Người dùng</option>
             </select>
           </div>
 
           {/* Filter by Status */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Status
+              Theo Trạng Thái
             </label>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
+              <option value="all">Tất cả Trạng Thái</option>
+              <option value="active">Hoạt động</option>
+              <option value="inactive">Không hoạt động</option>
             </select>
           </div>
 
           {/* Filter by Verify */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Verify
+              Theo Xác Thực
             </label>
             <select
               value={filterVerify}
               onChange={(e) => setFilterVerify(e.target.value)}
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
-              <option value="all">All</option>
-              <option value="verified">Verified</option>
-              <option value="unverified">Unverified</option>
+              <option value="all">Tất cả</option>
+              <option value="verified">Đã xác thực</option>
+              <option value="unverified">Chưa xác thực</option>
             </select>
           </div>
 
           {/* Filter by Premium */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Premium
+              Theo Premium
             </label>
             <select
               value={filterPremium}
               onChange={(e) => setFilterPremium(e.target.value)}
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
-              <option value="all">All</option>
+              <option value="all">Tất cả</option>
               <option value="premium">Premium</option>
-              <option value="regular">Regular</option>
+              <option value="regular">Thường</option>
             </select>
           </div>
         </div>
         {hasActiveFilters && (
           <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-            Showing {filteredUsers.length} of {users.length} users
+            Hiển thị {filteredUsers.length} trong tổng số {users.length} người dùng
           </div>
         )}
       </div>
@@ -409,7 +409,7 @@ export default function UserManagement() {
         <div className="flex items-center justify-center py-12">
           <div className="flex flex-col items-center gap-3">
             <div className="h-8 w-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading users...</p>
+            <p className="text-gray-600 dark:text-gray-400">Đang tải người dùng...</p>
           </div>
         </div>
       ) : (
@@ -419,25 +419,25 @@ export default function UserManagement() {
               <thead className="bg-gray-50 dark:bg-white/[0.02]">
                 <tr>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[180px] max-w-[180px]">
-                    User
+                    Người Dùng
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[200px] max-w-[200px]">
-                    Contact
+                    Liên Hệ
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Role
+                    Vai Trò
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Status
+                    Trạng Thái
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Verify
+                    Xác Thực
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden lg:table-cell">
                     Premium
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Actions
+                    Thao Tác
                   </th>
                 </tr>
               </thead>
@@ -450,12 +450,12 @@ export default function UserManagement() {
                           <UserIcon className="w-6 h-6 text-gray-400 flex-shrink-0 min-w-[1.5rem] min-h-[1.5rem]" />
                         </div>
                         <p className="text-gray-500 dark:text-gray-400 font-medium">
-                          {users.length === 0 ? "No users found" : "No users match your filters"}
+                          {users.length === 0 ? "Không tìm thấy người dùng nào" : "Không có người dùng nào khớp với bộ lọc của bạn"}
                         </p>
                         <p className="text-sm text-gray-400 dark:text-gray-500">
                           {users.length === 0 
-                            ? "Try refreshing the page or check back later" 
-                            : "Try adjusting your filter criteria"}
+                            ? "Thử làm mới trang hoặc quay lại sau" 
+                            : "Thử điều chỉnh tiêu chí lọc của bạn"}
                         </p>
                       </div>
                     </td>
@@ -506,10 +506,10 @@ export default function UserManagement() {
                         </span>
                       </td>
                       <td className="px-4 lg:px-6 py-4">
-                        {renderBadge("Active", user.status, "success")}
+                        {renderBadge("Hoạt động", user.status, "success")}
                       </td>
                       <td className="px-4 lg:px-6 py-4">
-                        {renderBadge("Verified", user.isEmailVerified, "info")}
+                        {renderBadge("Đã xác thực", user.isEmailVerified, "info")}
                       </td>
                       <td className="px-4 lg:px-6 py-4 hidden lg:table-cell">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -524,8 +524,8 @@ export default function UserManagement() {
                               toggleMenu(user.userId);
                             }}
                             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors dropdown-toggle flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] overflow-visible"
-                            aria-label="More options"
-                            title="More options"
+                            aria-label="Tùy chọn khác"
+                            title="Tùy chọn khác"
                           >
                             <MoreDotIcon className="w-5 h-5 text-gray-600 dark:text-gray-400 flex-shrink-0 min-w-[1.25rem] min-h-[1.25rem]" />
                           </button>
@@ -541,7 +541,7 @@ export default function UserManagement() {
                                 className="flex items-center gap-2"
                               >
                                 <EyeIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                                <span>View Details</span>
+                                <span>Xem Chi Tiết</span>
                               </DropdownItem>
                               <DropdownItem
                                 onClick={() => openChangeRole(user)}
@@ -549,7 +549,7 @@ export default function UserManagement() {
                                 className="flex items-center gap-2"
                               >
                                 <PencilIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                                <span>Change Role</span>
+                                <span>Đổi Vai Trò</span>
                               </DropdownItem>
                               <DropdownItem
                                 onClick={() => handleDeleteClick(user.userId)}
@@ -557,7 +557,7 @@ export default function UserManagement() {
                                 className="flex items-center gap-2"
                               >
                                 <TrashBinIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                                <span>Delete</span>
+                                <span>Xóa</span>
                               </DropdownItem>
                             </div>
                           </Dropdown>
@@ -575,7 +575,7 @@ export default function UserManagement() {
             <div className="border-t border-gray-200 dark:border-gray-700 px-4 lg:px-6 py-4 bg-gray-50 dark:bg-white/[0.02]">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <span>Showing</span>
+                  <span>Hiển thị</span>
                   <select
                     value={itemsPerPage}
                     onChange={(e) => {
@@ -589,7 +589,7 @@ export default function UserManagement() {
                     <option value={20}>20</option>
                     <option value={50}>50</option>
                   </select>
-                  <span>of {filteredUsers.length} users</span>
+                  <span>trong tổng số {filteredUsers.length} người dùng</span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -597,7 +597,7 @@ export default function UserManagement() {
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
                     className="p-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                    aria-label="Previous page"
+                    aria-label="Trang trước"
                   >
                     <ChevronLeftIcon className="w-4 h-4" />
                   </button>
@@ -635,7 +635,7 @@ export default function UserManagement() {
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
                     className="p-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                    aria-label="Next page"
+                    aria-label="Trang sau"
                   >
                     <ArrowRightIcon className="w-4 h-4" />
                   </button>
@@ -677,9 +677,9 @@ export default function UserManagement() {
                     <span className="truncate">{userDetail.email}</span>
                   </p>
                   <div className="flex items-center gap-3 flex-wrap">
-                    {renderBadge("Active", userDetail.status, "success")}
+                    {renderBadge("Hoạt động", userDetail.status, "success")}
                     {renderBadge("Premium", userDetail.isPremium, "warning")}
-                    {renderBadge("Verified", userDetail.isEmailVerified, "info")}
+                    {renderBadge("Đã xác thực", userDetail.isEmailVerified, "info")}
                   </div>
                 </div>
               </div>
@@ -692,15 +692,15 @@ export default function UserManagement() {
                 <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
                   <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                     <UserIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                    Personal Information
+                    Thông Tin Cá Nhân
                   </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">User ID</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">ID Người Dùng</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 font-mono break-all">{userDetail.userId}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Username</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Tên Người Dùng</p>
                       <p className="text-sm text-gray-800 dark:text-white/90">{userDetail.username}</p>
                     </div>
                     <div className="space-y-1">
@@ -711,11 +711,11 @@ export default function UserManagement() {
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Phone</p>
-                      <p className="text-sm text-gray-800 dark:text-white/90">{userDetail.phone || "N/A"}</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Số Điện Thoại</p>
+                      <p className="text-sm text-gray-800 dark:text-white/90">{userDetail.phone || "Không có"}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Date of Birth</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Ngày Sinh</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 flex items-center gap-2 min-w-0">
                         <CalenderIcon className="w-4 h-4 text-gray-400 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
                         <span>{formatDate(userDetail.dateOfBirth)}</span>
@@ -728,11 +728,11 @@ export default function UserManagement() {
                 <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
                   <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                     <UserCircleIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                    Account Information
+                    Thông Tin Tài Khoản
                   </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Role</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Vai Trò</p>
                       <div className="mt-1">
                         <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-brand-100 text-brand-700 dark:bg-brand-500/20 dark:text-brand-400">
                           {userDetail.roleName} (ID: {userDetail.roleId})
@@ -740,15 +740,15 @@ export default function UserManagement() {
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Status</p>
-                      <div className="mt-1">{renderBadge("Active", userDetail.status, "success")}</div>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Trạng Thái</p>
+                      <div className="mt-1">{renderBadge("Hoạt động", userDetail.status, "success")}</div>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Email Verified</p>
-                      <div className="mt-1">{renderBadge("Verified", userDetail.isEmailVerified, "info")}</div>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Email Đã Xác Thực</p>
+                      <div className="mt-1">{renderBadge("Đã xác thực", userDetail.isEmailVerified, "info")}</div>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Premium Member</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Thành Viên Premium</p>
                       <div className="mt-1">{renderBadge("Premium", userDetail.isPremium, "warning")}</div>
                     </div>
                   </div>
@@ -759,12 +759,12 @@ export default function UserManagement() {
                   <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
                     <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                       <TimeIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                      Additional Information
+                      Thông Tin Bổ Sung
                     </h5>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {userDetail.otpGeneratedAt && (
                         <div className="space-y-1">
-                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">OTP Generated At</p>
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">OTP Được Tạo Lúc</p>
                           <p className="text-sm text-gray-800 dark:text-white/90 flex items-center gap-2 min-w-0">
                             <TimeIcon className="w-4 h-4 text-gray-400 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
                             <span>{formatDateTime(userDetail.otpGeneratedAt)}</span>
@@ -773,9 +773,9 @@ export default function UserManagement() {
                       )}
                       {userDetail.houses && userDetail.houses.length > 0 && (
                         <div className="space-y-1">
-                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Houses</p>
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Nhà</p>
                           <p className="text-sm text-gray-800 dark:text-white/90">
-                            <span className="font-semibold text-brand-600 dark:text-brand-400">{userDetail.houses.length}</span> house(s) registered
+                            <span className="font-semibold text-brand-600 dark:text-brand-400">{userDetail.houses.length}</span> nhà đã đăng ký
                           </p>
                         </div>
                       )}
@@ -788,7 +788,7 @@ export default function UserManagement() {
             {/* Footer */}
             <div className="border-t border-gray-200 dark:border-gray-700 px-6 lg:px-8 py-4 bg-gray-50 dark:bg-white/[0.02]">
               <div className="flex items-center justify-end gap-3">
-                <Button size="sm" variant="outline" onClick={detailModal.closeModal}>Close</Button>
+                <Button size="sm" variant="outline" onClick={detailModal.closeModal}>Đóng</Button>
               </div>
             </div>
           </div>
@@ -797,23 +797,23 @@ export default function UserManagement() {
 
       {/* Change Role Modal */}
       <Modal isOpen={roleModal.isOpen} onClose={roleModal.closeModal} className="max-w-[480px] p-6 lg:p-8">
-        <h4 className="font-semibold text-gray-800 mb-5 text-title-sm dark:text-white/90">Change User Role</h4>
+        <h4 className="font-semibold text-gray-800 mb-5 text-title-sm dark:text-white/90">Đổi Vai Trò Người Dùng</h4>
         <div className="flex flex-col gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Role</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Vai Trò</label>
             <select 
               value={newRoleId} 
               onChange={(e) => setNewRoleId(Number(e.target.value))}
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
-              <option value={1}>Admin</option>
-              <option value={2}>Customer</option>
-              <option value={3}>User</option>
+              <option value={1}>Quản trị viên</option>
+              <option value={2}>Khách hàng</option>
+              <option value={3}>Người dùng</option>
             </select>
           </div>
           <div className="flex items-center justify-end gap-3 pt-2">
-            <Button size="sm" variant="outline" onClick={roleModal.closeModal}>Cancel</Button>
-            <Button size="sm" onClick={handleChangeRole}>Save</Button>
+            <Button size="sm" variant="outline" onClick={roleModal.closeModal}>Hủy</Button>
+            <Button size="sm" onClick={handleChangeRole}>Lưu</Button>
           </div>
         </div>
       </Modal>

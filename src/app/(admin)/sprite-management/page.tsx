@@ -44,7 +44,7 @@ export default function SpriteManagement() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    document.title = "Sprite Management - HomeTrack Admin";
+    document.title = "Quản lý Sprite - HomeTrack Admin";
   }, []);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function SpriteManagement() {
       setRoomItems(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Failed to fetch room items:", error);
-      const errorMessage = getErrorMessage(error, "Failed to load room items");
+      const errorMessage = getErrorMessage(error, "Không thể tải danh sách vật phẩm phòng");
       alert(errorMessage);
       setRoomItems([]);
     } finally {
@@ -72,7 +72,7 @@ export default function SpriteManagement() {
       return response;
     } catch (error) {
       console.error("Failed to fetch room item detail:", error);
-      const errorMessage = getErrorMessage(error, "Failed to load room item details");
+      const errorMessage = getErrorMessage(error, "Không thể tải chi tiết vật phẩm phòng");
       throw new Error(errorMessage);
     }
   };
@@ -97,7 +97,7 @@ export default function SpriteManagement() {
       modal.openModal();
     } catch (error) {
       console.error("Failed to load room item for editing:", error);
-      const errorMessage = getErrorMessage(error, "Failed to load room item details");
+      const errorMessage = getErrorMessage(error, "Không thể tải chi tiết vật phẩm phòng");
       alert(errorMessage);
     }
   };
@@ -128,20 +128,20 @@ export default function SpriteManagement() {
       closeModal();
     } catch (error) {
       console.error("Failed to save room item:", error);
-      const errorMessage = getErrorMessage(error, "Failed to save room item. Please try again.");
+      const errorMessage = getErrorMessage(error, "Không thể lưu vật phẩm phòng. Vui lòng thử lại.");
       alert(errorMessage);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this room item?")) return;
+    if (!confirm("Bạn có chắc chắn muốn xóa vật phẩm phòng này?")) return;
     try {
       await api.del(`/api/RoomItem/${id}`);
       setOpenMenuId(null);
       await fetchRoomItems();
     } catch (error) {
       console.error("Failed to delete room item:", error);
-      const errorMessage = getErrorMessage(error, "Failed to delete room item. Please try again.");
+      const errorMessage = getErrorMessage(error, "Không thể xóa vật phẩm phòng. Vui lòng thử lại.");
       alert(errorMessage);
     }
   };
@@ -209,17 +209,17 @@ export default function SpriteManagement() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Sprite Management</h1>
+        <h1 className="text-xl font-bold">Quản lý Sprite</h1>
         <Button size="sm" onClick={openAdd} className="flex items-center gap-2">
           <PlusIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-          Add Room Item
+          Thêm Vật Phẩm
         </Button>
       </div>
 
       {/* Filters Section */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-theme-md p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Filters</h2>
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Bộ lọc</h2>
           {hasActiveFilters && (
             <Button
               size="sm"
@@ -227,7 +227,7 @@ export default function SpriteManagement() {
               onClick={handleClearFilters}
               className="text-xs"
             >
-              Clear All
+              Xóa tất cả
             </Button>
           )}
         </div>
@@ -235,13 +235,13 @@ export default function SpriteManagement() {
           {/* Filter by Item */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Item
+              Theo Vật Phẩm
             </label>
             <input
               type="text"
               value={filterItem}
               onChange={(e) => setFilterItem(e.target.value)}
-              placeholder="Search item..."
+              placeholder="Tìm kiếm vật phẩm..."
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
@@ -249,13 +249,13 @@ export default function SpriteManagement() {
           {/* Filter by Sub Name */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Sub Name
+              Theo Tên Phụ
             </label>
             <input
               type="text"
               value={filterSubName}
               onChange={(e) => setFilterSubName(e.target.value)}
-              placeholder="Search sub name..."
+              placeholder="Tìm kiếm tên phụ..."
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
@@ -263,20 +263,20 @@ export default function SpriteManagement() {
           {/* Filter by Room Type */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Room Type
+              Theo Loại Phòng
             </label>
             <input
               type="text"
               value={filterRoomType}
               onChange={(e) => setFilterRoomType(e.target.value)}
-              placeholder="Search room type..."
+              placeholder="Tìm kiếm loại phòng..."
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
         </div>
         {hasActiveFilters && (
           <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-            Showing {filteredItems.length} of {roomItems.length} items
+            Hiển thị {filteredItems.length} trong tổng số {roomItems.length} vật phẩm
           </div>
         )}
       </div>
@@ -285,7 +285,7 @@ export default function SpriteManagement() {
         <div className="flex items-center justify-center py-12">
           <div className="flex flex-col items-center gap-3">
             <div className="h-8 w-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading room items...</p>
+            <p className="text-gray-600 dark:text-gray-400">Đang tải vật phẩm phòng...</p>
           </div>
         </div>
       ) : (
@@ -298,22 +298,22 @@ export default function SpriteManagement() {
                     #
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Item
+                    Vật Phẩm
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Sub Name
+                    Tên Phụ
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Room Type
+                    Loại Phòng
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Default X
+                    Vị Trí X Mặc Định
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Default Y
+                    Vị Trí Y Mặc Định
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Actions
+                    Thao Tác
                   </th>
                 </tr>
               </thead>
@@ -326,12 +326,12 @@ export default function SpriteManagement() {
                           <PlusIcon className="w-6 h-6 text-gray-400 flex-shrink-0 min-w-[1.5rem] min-h-[1.5rem]" />
                         </div>
                         <p className="text-gray-500 dark:text-gray-400 font-medium">
-                          {roomItems.length === 0 ? "No room items found" : "No items match your filters"}
+                          {roomItems.length === 0 ? "Không tìm thấy vật phẩm phòng nào" : "Không có vật phẩm nào khớp với bộ lọc của bạn"}
                         </p>
                         <p className="text-sm text-gray-400 dark:text-gray-500">
                           {roomItems.length === 0 
-                            ? "Try adding a new room item or check back later" 
-                            : "Try adjusting your filter criteria"}
+                            ? "Thử thêm vật phẩm phòng mới hoặc quay lại sau" 
+                            : "Thử điều chỉnh tiêu chí lọc của bạn"}
                         </p>
                       </div>
                     </td>
@@ -380,8 +380,8 @@ export default function SpriteManagement() {
                               toggleMenu(item.roomItemId);
                             }}
                             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors dropdown-toggle flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] overflow-visible"
-                            aria-label="More options"
-                            title="More options"
+                            aria-label="Tùy chọn khác"
+                            title="Tùy chọn khác"
                           >
                             <MoreDotIcon className="w-5 h-5 text-gray-600 dark:text-gray-400 flex-shrink-0 min-w-[1.25rem] min-h-[1.25rem]" />
                           </button>
@@ -397,7 +397,7 @@ export default function SpriteManagement() {
                                 className="flex items-center gap-2"
                               >
                                 <PencilIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                                <span>Edit</span>
+                                <span>Sửa</span>
                               </DropdownItem>
                               <DropdownItem
                                 onClick={() => handleDeleteClick(item.roomItemId)}
@@ -405,7 +405,7 @@ export default function SpriteManagement() {
                                 className="flex items-center gap-2"
                               >
                                 <TrashBinIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                                <span>Delete</span>
+                                <span>Xóa</span>
                               </DropdownItem>
                             </div>
                           </Dropdown>
@@ -423,7 +423,7 @@ export default function SpriteManagement() {
             <div className="border-t border-gray-200 dark:border-gray-700 px-4 lg:px-6 py-4 bg-gray-50 dark:bg-white/[0.02]">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <span>Showing</span>
+                  <span>Hiển thị</span>
                   <select
                     value={itemsPerPage}
                     onChange={(e) => {
@@ -437,7 +437,7 @@ export default function SpriteManagement() {
                     <option value={20}>20</option>
                     <option value={50}>50</option>
                   </select>
-                  <span>of {filteredItems.length} items</span>
+                  <span>trong tổng số {filteredItems.length} vật phẩm</span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -445,7 +445,7 @@ export default function SpriteManagement() {
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
                     className="p-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                    aria-label="Previous page"
+                    aria-label="Trang trước"
                   >
                     <ChevronLeftIcon className="w-4 h-4" />
                   </button>
@@ -483,7 +483,7 @@ export default function SpriteManagement() {
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
                     className="p-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                    aria-label="Next page"
+                    aria-label="Trang sau"
                   >
                     <ArrowRightIcon className="w-4 h-4" />
                   </button>
@@ -497,52 +497,52 @@ export default function SpriteManagement() {
       {/* Add/Edit Modal */}
       <Modal isOpen={modal.isOpen} onClose={closeModal} className="max-w-[640px] p-6 lg:p-8">
         <h4 className="font-semibold text-gray-800 mb-5 text-title-sm dark:text-white/90">
-          {editing ? "Edit Room Item" : "Add Room Item"}
+          {editing ? "Sửa Vật Phẩm Phòng" : "Thêm Vật Phẩm Phòng"}
         </h4>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Item Name <span className="text-error-500">*</span>
+                Tên Vật Phẩm <span className="text-error-500">*</span>
               </label>
               <input
                 name="item"
                 value={form.item}
                 onChange={handleInputChange}
-                placeholder="e.g., bed, desk, chair"
+                placeholder="Ví dụ: bed, desk, chair"
                 className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
                 required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Sub Name <span className="text-error-500">*</span>
+                Tên Phụ <span className="text-error-500">*</span>
               </label>
               <input
                 name="subName"
                 value={form.subName}
                 onChange={handleInputChange}
-                placeholder="e.g., Giường, Bàn làm việc"
+                placeholder="Ví dụ: Giường, Bàn làm việc"
                 className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
                 required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Room Type <span className="text-error-500">*</span>
+                Loại Phòng <span className="text-error-500">*</span>
               </label>
               <input
                 name="roomType"
                 value={form.roomType}
                 onChange={handleInputChange}
-                placeholder="e.g., Bedroom, Kitchen, Living Room"
+                placeholder="Ví dụ: Bedroom, Kitchen, Living Room"
                 className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
                 required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Default X Position <span className="text-error-500">*</span>
+                Vị Trí X Mặc Định <span className="text-error-500">*</span>
               </label>
               <input
                 name="defaultX"
@@ -556,7 +556,7 @@ export default function SpriteManagement() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Default Y Position <span className="text-error-500">*</span>
+                Vị Trí Y Mặc Định <span className="text-error-500">*</span>
               </label>
               <input
                 name="defaultY"
@@ -570,8 +570,8 @@ export default function SpriteManagement() {
             </div>
           </div>
           <div className="flex items-center justify-end gap-3 pt-2">
-            <Button size="sm" variant="outline" onClick={closeModal}>Cancel</Button>
-            <Button size="sm" type="submit">Save</Button>
+            <Button size="sm" variant="outline" onClick={closeModal}>Hủy</Button>
+            <Button size="sm" type="submit">Lưu</Button>
           </div>
         </form>
       </Modal>

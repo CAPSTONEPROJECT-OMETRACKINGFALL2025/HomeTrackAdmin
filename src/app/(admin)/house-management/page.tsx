@@ -18,7 +18,7 @@ export default function HouseManagement() {
   const modal = useModal();
 
   useEffect(() => {
-    document.title = "House Management - HomeTrack Admin";
+    document.title = "Quản lý Nhà - HomeTrack Admin";
   }, []);
 
   const openEdit = (house: House) => { setEditing(house); modal.openModal(); };
@@ -36,18 +36,18 @@ export default function HouseManagement() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">House Management</h1>
+        <h1 className="text-xl font-bold">Quản lý Nhà</h1>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-theme-md">
           <thead className="bg-gray-50 dark:bg_white/[0.02]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Owner</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tên</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Địa Chỉ</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loại</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Chủ Sở Hữu</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trạng Thái</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Thao Tác</th>
             </tr>
           </thead>
           <tbody>
@@ -60,10 +60,10 @@ export default function HouseManagement() {
                 <td className="px-6 py-4 whitespace-nowrap">{renderStatus(house.status)}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="ml-auto flex items-center justify-end gap-2">
-                    <button aria-label="Edit" className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" onClick={() => openEdit(house)}>
+                    <button aria-label="Sửa" className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" onClick={() => openEdit(house)}>
                       <PencilIcon />
                     </button>
-                    <button aria-label="Delete" className="p-2 rounded-lg hover:bg-gray-100 text-error-500 dark:hover:bg-white/5" onClick={() => handleDelete(house.id)}>
+                    <button aria-label="Xóa" className="p-2 rounded-lg hover:bg-gray-100 text-error-500 dark:hover:bg-white/5" onClick={() => handleDelete(house.id)}>
                       <TrashBinIcon />
                     </button>
                   </div>
@@ -75,19 +75,19 @@ export default function HouseManagement() {
       </div>
 
       <Modal isOpen={modal.isOpen} onClose={closeEdit} className="max-w-[560px] p-6 lg:p-8">
-        <h4 className="font-semibold text-gray-800 mb-5 text-title-sm dark:text-white/90">House Details</h4>
+        <h4 className="font-semibold text-gray-800 mb-5 text-title-sm dark:text-white/90">Chi Tiết Nhà</h4>
         {editing && (
           <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-            <div className="flex justify-between"><span className="font-medium">Name</span><span>{editing.name}</span></div>
-            <div className="flex justify-between"><span className="font-medium">Address</span><span>{editing.address}</span></div>
-            <div className="flex justify-between"><span className="font-medium">Type</span><span>{editing.type}</span></div>
-            <div className="flex justify-between"><span className="font-medium">Owner</span><span>{editing.owner}</span></div>
-            <div className="flex justify-between"><span className="font-medium">Status</span><span>{editing.status}</span></div>
+            <div className="flex justify-between"><span className="font-medium">Tên</span><span>{editing.name}</span></div>
+            <div className="flex justify-between"><span className="font-medium">Địa Chỉ</span><span>{editing.address}</span></div>
+            <div className="flex justify-between"><span className="font-medium">Loại</span><span>{editing.type}</span></div>
+            <div className="flex justify-between"><span className="font-medium">Chủ Sở Hữu</span><span>{editing.owner}</span></div>
+            <div className="flex justify-between"><span className="font-medium">Trạng Thái</span><span>{editing.status}</span></div>
           </div>
         )}
         <div className="flex items-center justify-end gap-3 pt-6">
-          <Button size="sm" variant="outline" onClick={closeEdit}>Close</Button>
-          <Button size="sm" onClick={closeEdit}>Done</Button>
+          <Button size="sm" variant="outline" onClick={closeEdit}>Đóng</Button>
+          <Button size="sm" onClick={closeEdit}>Xong</Button>
         </div>
       </Modal>
     </div>

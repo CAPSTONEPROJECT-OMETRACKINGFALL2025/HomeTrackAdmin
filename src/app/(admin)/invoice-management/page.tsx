@@ -60,7 +60,7 @@ export default function InvoiceManagement() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    document.title = "Invoice Management - HomeTrack Admin";
+    document.title = "Quản lý Hóa Đơn - HomeTrack Admin";
   }, []);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function InvoiceManagement() {
       setOrders(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
-      const errorMessage = getErrorMessage(error, "Failed to load orders");
+      const errorMessage = getErrorMessage(error, "Không thể tải danh sách đơn hàng");
       alert(errorMessage);
       setOrders([]);
     } finally {
@@ -104,7 +104,7 @@ export default function InvoiceManagement() {
       detailModal.openModal();
     } catch (error) {
       console.error("Failed to fetch order detail:", error);
-      const errorMessage = getErrorMessage(error, "Failed to load order details");
+      const errorMessage = getErrorMessage(error, "Không thể tải chi tiết đơn hàng");
       alert(errorMessage);
     }
   };
@@ -116,7 +116,7 @@ export default function InvoiceManagement() {
 
   const handleDownloadInvoice = async (order: Order) => {
     if (order.status !== 1) {
-      alert("Only paid invoices can be downloaded.");
+      alert("Chỉ có thể tải hóa đơn đã thanh toán.");
       return;
     }
     
@@ -146,7 +146,7 @@ export default function InvoiceManagement() {
       setOpenMenuId(null);
     } catch (error) {
       console.error("Failed to download invoice:", error);
-      const errorMessage = getErrorMessage(error, "Failed to download invoice. Please try again.");
+      const errorMessage = getErrorMessage(error, "Không thể tải hóa đơn. Vui lòng thử lại.");
       alert(errorMessage);
     }
   };
@@ -158,13 +158,13 @@ export default function InvoiceManagement() {
   const getStatusLabel = (status: number): string => {
     switch (status) {
       case 0:
-        return "Pending";
+        return "Chờ thanh toán";
       case 1:
-        return "Paid";
+        return "Đã thanh toán";
       case 2:
-        return "Cancelled";
+        return "Đã hủy";
       default:
-        return "Unknown";
+        return "Không xác định";
     }
   };
 
@@ -193,7 +193,7 @@ export default function InvoiceManagement() {
   };
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return "N/A";
+    if (!dateString) return "Không có";
     try {
       return new Date(dateString).toLocaleDateString("en-US", {
         year: "numeric",
@@ -206,7 +206,7 @@ export default function InvoiceManagement() {
   };
 
   const formatDateTime = (dateString: string) => {
-    if (!dateString) return "N/A";
+    if (!dateString) return "Không có";
     try {
       return new Date(dateString).toLocaleString("en-US", {
         year: "numeric",
@@ -292,13 +292,13 @@ export default function InvoiceManagement() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Invoice Management</h1>
+        <h1 className="text-xl font-bold">Quản lý Hóa Đơn</h1>
       </div>
 
       {/* Filters Section */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-theme-md p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Filters</h2>
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Bộ lọc</h2>
           {hasActiveFilters && (
             <Button
               size="sm"
@@ -306,7 +306,7 @@ export default function InvoiceManagement() {
               onClick={handleClearFilters}
               className="text-xs"
             >
-              Clear All
+              Xóa tất cả
             </Button>
           )}
         </div>
@@ -314,13 +314,13 @@ export default function InvoiceManagement() {
           {/* Filter by Order Code */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Order Code
+              Theo Mã Đơn Hàng
             </label>
             <input
               type="text"
               value={filterOrderCode}
               onChange={(e) => setFilterOrderCode(e.target.value)}
-              placeholder="Search order code..."
+              placeholder="Tìm kiếm mã đơn hàng..."
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
@@ -328,24 +328,24 @@ export default function InvoiceManagement() {
           {/* Filter by Status */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              By Status
+              Theo Trạng Thái
             </label>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
               className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
             >
-              <option value="all">All Status</option>
-              <option value="0">Pending</option>
-              <option value="1">Paid</option>
-              <option value="2">Cancelled</option>
+              <option value="all">Tất cả Trạng Thái</option>
+              <option value="0">Chờ thanh toán</option>
+              <option value="1">Đã thanh toán</option>
+              <option value="2">Đã hủy</option>
             </select>
           </div>
 
           {/* Filter by Date From */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Date From
+              Từ Ngày
             </label>
             <input
               type="date"
@@ -358,7 +358,7 @@ export default function InvoiceManagement() {
           {/* Filter by Date To */}
           <div>
             <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Date To
+              Đến Ngày
             </label>
             <input
               type="date"
@@ -370,7 +370,7 @@ export default function InvoiceManagement() {
         </div>
         {hasActiveFilters && (
           <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-            Showing {filteredOrders.length} of {orders.length} orders
+            Hiển thị {filteredOrders.length} trong tổng số {orders.length} đơn hàng
           </div>
         )}
       </div>
@@ -379,38 +379,38 @@ export default function InvoiceManagement() {
         <div className="flex items-center justify-center py-12">
           <div className="flex flex-col items-center gap-3">
             <div className="h-8 w-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading orders...</p>
+            <p className="text-gray-600 dark:text-gray-400">Đang tải đơn hàng...</p>
           </div>
         </div>
       ) : (
         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-theme-md overflow-hidden">
-          <div className="overflow-x-auto">
+      <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-white/[0.02]">
-                <tr>
+          <thead className="bg-gray-50 dark:bg-white/[0.02]">
+            <tr>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Order Code
+                    Mã Đơn Hàng
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    User ID
+                    ID Người Dùng
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Amount
+                    Số Tiền
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Status
+                    Trạng Thái
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden lg:table-cell">
-                    Created At
+                    Ngày Tạo
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden lg:table-cell">
-                    Paid At
+                    Ngày Thanh Toán
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Actions
+                    Thao Tác
                   </th>
-                </tr>
-              </thead>
+            </tr>
+          </thead>
               <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                 {paginatedOrders.length === 0 ? (
                   <tr>
@@ -420,12 +420,12 @@ export default function InvoiceManagement() {
                           <CalenderIcon className="w-6 h-6 text-gray-400 flex-shrink-0 min-w-[1.5rem] min-h-[1.5rem]" />
                         </div>
                         <p className="text-gray-500 dark:text-gray-400 font-medium">
-                          {orders.length === 0 ? "No orders found" : "No orders match your filters"}
+                          {orders.length === 0 ? "Không tìm thấy đơn hàng nào" : "Không có đơn hàng nào khớp với bộ lọc của bạn"}
                         </p>
                         <p className="text-sm text-gray-400 dark:text-gray-500">
                           {orders.length === 0 
-                            ? "Try refreshing the page or check back later" 
-                            : "Try adjusting your filter criteria"}
+                            ? "Thử làm mới trang hoặc quay lại sau" 
+                            : "Thử điều chỉnh tiêu chí lọc của bạn"}
                         </p>
                       </div>
                     </td>
@@ -468,7 +468,7 @@ export default function InvoiceManagement() {
                               <span>{formatDate(order.paidAt)}</span>
                             </>
                           ) : (
-                            <span className="text-gray-400 dark:text-gray-500">N/A</span>
+                            <span className="text-gray-400 dark:text-gray-500">Không có</span>
                           )}
                         </div>
                       </td>
@@ -480,11 +480,11 @@ export default function InvoiceManagement() {
                               toggleMenu(order.id);
                             }}
                             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors dropdown-toggle flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] overflow-visible"
-                            aria-label="More options"
-                            title="More options"
+                            aria-label="Tùy chọn khác"
+                            title="Tùy chọn khác"
                           >
                             <MoreDotIcon className="w-5 h-5 text-gray-600 dark:text-gray-400 flex-shrink-0 min-w-[1.25rem] min-h-[1.25rem]" />
-                          </button>
+                    </button>
                           <Dropdown
                             isOpen={openMenuId === order.id}
                             onClose={() => setOpenMenuId(null)}
@@ -497,7 +497,7 @@ export default function InvoiceManagement() {
                                 className="flex items-center gap-2"
                               >
                                 <EyeIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                                <span>View Details</span>
+                                <span>Xem Chi Tiết</span>
                               </DropdownItem>
                               {order.status === 1 && (
                                 <DropdownItem
@@ -506,26 +506,26 @@ export default function InvoiceManagement() {
                                   className="flex items-center gap-2"
                                 >
                                   <DownloadIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                                  <span>Download Invoice</span>
+                                  <span>Tải Hóa Đơn</span>
                                 </DropdownItem>
                               )}
                             </div>
                           </Dropdown>
-                        </div>
-                      </td>
-                    </tr>
+                  </div>
+                </td>
+              </tr>
                   ))
                 )}
-              </tbody>
-            </table>
-          </div>
+          </tbody>
+        </table>
+      </div>
 
           {/* Pagination Controls */}
           {filteredOrders.length > 0 && (
             <div className="border-t border-gray-200 dark:border-gray-700 px-4 lg:px-6 py-4 bg-gray-50 dark:bg-white/[0.02]">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <span>Showing</span>
+                  <span>Hiển thị</span>
                   <select
                     value={itemsPerPage}
                     onChange={(e) => {
@@ -539,7 +539,7 @@ export default function InvoiceManagement() {
                     <option value={20}>20</option>
                     <option value={50}>50</option>
                   </select>
-                  <span>of {filteredOrders.length} orders</span>
+                  <span>trong tổng số {filteredOrders.length} đơn hàng</span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -547,7 +547,7 @@ export default function InvoiceManagement() {
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
                     className="p-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                    aria-label="Previous page"
+                    aria-label="Trang trước"
                   >
                     <ChevronLeftIcon className="w-4 h-4" />
                   </button>
@@ -585,7 +585,7 @@ export default function InvoiceManagement() {
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
                     className="p-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                    aria-label="Next page"
+                    aria-label="Trang sau"
                   >
                     <ArrowRightIcon className="w-4 h-4" />
                   </button>
@@ -604,7 +604,7 @@ export default function InvoiceManagement() {
             <div className="bg-gradient-to-r from-brand-500 to-brand-600 dark:from-brand-600 dark:to-brand-700 px-6 lg:px-8 pt-8 pb-6">
               <div className="flex items-start gap-6">
                 <div className="flex-1 pt-2">
-                  <h4 className="text-2xl font-bold text-white mb-2">Order #{orderDetail.orderCode}</h4>
+                  <h4 className="text-2xl font-bold text-white mb-2">Đơn Hàng #{orderDetail.orderCode}</h4>
                   <div className="flex items-center gap-3 flex-wrap mt-4">
                     {renderBadge(getStatusLabel(orderDetail.status), getStatusVariant(orderDetail.status))}
                   </div>
@@ -619,35 +619,35 @@ export default function InvoiceManagement() {
                 <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
                   <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                     <CalenderIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                    Order Information
+                    Thông Tin Đơn Hàng
                   </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Order ID</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">ID Đơn Hàng</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 font-mono break-all">{orderDetail.id}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Order Code</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Mã Đơn Hàng</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 font-semibold">{orderDetail.orderCode}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">User ID</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">ID Người Dùng</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 font-mono break-all">{orderDetail.userId}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Amount</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Số Tiền</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 font-semibold text-brand-600 dark:text-brand-400">
                         {formatCurrency(orderDetail.amountVnd)}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Status</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Trạng Thái</p>
                       <div className="mt-1">
                         {renderBadge(getStatusLabel(orderDetail.status), getStatusVariant(orderDetail.status))}
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Plan Price ID</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">ID Giá Gói</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 font-mono break-all text-xs">{orderDetail.planPriceId}</p>
                     </div>
                   </div>
@@ -658,11 +658,11 @@ export default function InvoiceManagement() {
                   <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
                     <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                       <UserIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                      User Information
+                      Thông Tin Người Dùng
                     </h5>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Username</p>
+                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Tên Người Dùng</p>
                         <p className="text-sm text-gray-800 dark:text-white/90 font-semibold">{orderDetail.user.username}</p>
                       </div>
                       <div className="space-y-1">
@@ -674,17 +674,17 @@ export default function InvoiceManagement() {
                       </div>
                       {orderDetail.user.phone && (
                         <div className="space-y-1">
-                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Phone</p>
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Số Điện Thoại</p>
                           <p className="text-sm text-gray-800 dark:text-white/90">{orderDetail.user.phone}</p>
                         </div>
                       )}
                       <div className="space-y-1">
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Role</p>
+                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Vai Trò</p>
                         <p className="text-sm text-gray-800 dark:text-white/90">{orderDetail.user.roleName}</p>
                       </div>
                       {orderDetail.user.dateOfBirth && (
                         <div className="space-y-1">
-                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Date of Birth</p>
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Ngày Sinh</p>
                           <p className="text-sm text-gray-800 dark:text-white/90 flex items-center gap-2">
                             <CalenderIcon className="w-4 h-4 text-gray-400 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
                             <span>{formatDate(orderDetail.user.dateOfBirth)}</span>
@@ -692,9 +692,9 @@ export default function InvoiceManagement() {
                         </div>
                       )}
                       <div className="space-y-1">
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Account Status</p>
+                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Trạng Thái Tài Khoản</p>
                         <div className="mt-1">
-                          {renderBadge(orderDetail.user.status ? "Active" : "Inactive", orderDetail.user.status ? "success" : "error")}
+                          {renderBadge(orderDetail.user.status ? "Hoạt động" : "Không hoạt động", orderDetail.user.status ? "success" : "error")}
                         </div>
                       </div>
                     </div>
@@ -706,11 +706,11 @@ export default function InvoiceManagement() {
                   <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
                     <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                       <TimeIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                      Subscription Information
+                      Thông Tin Gói Đăng Ký
                     </h5>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Subscription ID</p>
+                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">ID Gói Đăng Ký</p>
                         <p className="text-sm text-gray-800 dark:text-white/90 font-mono break-all">{orderDetail.subscriptionId}</p>
                       </div>
                     </div>
@@ -721,18 +721,18 @@ export default function InvoiceManagement() {
                 <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
                   <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                     <TimeIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                    Date Information
+                    Thông Tin Ngày Tháng
                   </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Created At</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Ngày Tạo</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 flex items-center gap-2">
                         <CalenderIcon className="w-4 h-4 text-gray-400 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
                         <span>{formatDateTime(orderDetail.createdAt)}</span>
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Paid At</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Ngày Thanh Toán</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 flex items-center gap-2">
                         {orderDetail.paidAt ? (
                           <>
@@ -740,7 +740,7 @@ export default function InvoiceManagement() {
                             <span>{formatDateTime(orderDetail.paidAt)}</span>
                           </>
                         ) : (
-                          <span className="text-gray-400 dark:text-gray-500">Not paid yet</span>
+                          <span className="text-gray-400 dark:text-gray-500">Chưa thanh toán</span>
                         )}
                       </p>
                     </div>
@@ -749,14 +749,14 @@ export default function InvoiceManagement() {
 
                 {/* URL Information */}
                 <div className="bg-gray-50 dark:bg-white/[0.02] rounded-xl p-5 border border-gray-200 dark:border-gray-700">
-                  <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">URL Information</h5>
+                  <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Thông Tin URL</h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Return URL</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">URL Trả Về</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 break-all font-mono text-xs">{orderDetail.returnUrl}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Cancel URL</p>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">URL Hủy</p>
                       <p className="text-sm text-gray-800 dark:text-white/90 break-all font-mono text-xs">{orderDetail.cancelUrl}</p>
                     </div>
                   </div>
@@ -774,17 +774,17 @@ export default function InvoiceManagement() {
                       try {
                         await generateInvoicePDF(orderDetail);
                       } catch (error) {
-                        const errorMessage = getErrorMessage(error, "Failed to download invoice. Please try again.");
+                        const errorMessage = getErrorMessage(error, "Không thể tải hóa đơn. Vui lòng thử lại.");
                         alert(errorMessage);
                       }
                     }}
                     className="flex items-center gap-2"
                   >
                     <DownloadIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
-                    Download Invoice
+                    Tải Hóa Đơn
                   </Button>
                 )}
-                <Button size="sm" variant="outline" onClick={detailModal.closeModal}>Close</Button>
+                <Button size="sm" variant="outline" onClick={detailModal.closeModal}>Đóng</Button>
               </div>
             </div>
           </div>

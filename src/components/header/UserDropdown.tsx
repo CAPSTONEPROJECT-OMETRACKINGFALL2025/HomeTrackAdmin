@@ -1,10 +1,27 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { useSessionStore } from "@/store/session";
+import { api } from "@/lib/api";
+
+type UserDetail = {
+  userId: string;
+  username: string;
+  email: string;
+  roleId: number;
+  roleName: string;
+  pictureProfile?: string;
+  dateOfBirth?: string;
+  phone?: string;
+  status: boolean;
+  isPremium: boolean;
+  isEmailVerified: boolean;
+};
+
+const USER_DETAIL_STORAGE_KEY = "app/userDetail.v1";
 
 function stringAvatar(name: string) {
   const parts = name.split(" ");
@@ -13,12 +30,66 @@ function stringAvatar(name: string) {
   return initials.toUpperCase();
 }
 
+function saveUserDetailToStorage(userDetail: UserDetail | null) {
+  if (typeof localStorage === "undefined") return;
+  if (!userDetail) {
+    localStorage.removeItem(USER_DETAIL_STORAGE_KEY);
+    return;
+  }
+  localStorage.setItem(USER_DETAIL_STORAGE_KEY, JSON.stringify(userDetail));
+}
+
+function getUserDetailFromStorage(): UserDetail | null {
+  if (typeof localStorage === "undefined") return null;
+  const raw = localStorage.getItem(USER_DETAIL_STORAGE_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as UserDetail;
+  } catch {
+    return null;
+  }
+}
+
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userDetail, setUserDetail] = useState<UserDetail | null>(null);
   const user = useSessionStore((s) => s.user);
-  const displayName = user?.username || user?.email?.split("@")[0] || "Guest";
-  const displayEmail = user?.email || "unknown@email.com";
-  const hasAvatar = !!user?.avatarUrl;
+
+  useEffect(() => {
+    // First, try to load from localStorage
+    const savedUserDetail = getUserDetailFromStorage();
+    if (savedUserDetail && savedUserDetail.userId === user?.userId) {
+      setUserDetail(savedUserDetail);
+    }
+
+    // Then fetch fresh data from API if user is logged in
+    const fetchUserDetail = async () => {
+      if (user?.userId) {
+        try {
+          const response = await api.get<UserDetail>(`/Auth/get-by-userid/${user.userId}`);
+          setUserDetail(response);
+          // Save to localStorage
+          saveUserDetailToStorage(response);
+        } catch (error) {
+          console.error("Failed to fetch user details:", error);
+          // Continue with saved user detail or session store user if API fails
+        }
+      } else {
+        // Clear user detail if no user is logged in
+        setUserDetail(null);
+        saveUserDetailToStorage(null);
+      }
+    };
+
+    fetchUserDetail();
+  }, [user?.userId]);
+
+  // Use detailed user info if available, otherwise fall back to session store user
+  const displayUser = userDetail || user;
+  const displayName = displayUser?.username || displayUser?.email?.split("@")[0] || "Khách";
+  const displayEmail = displayUser?.email || "chưa có email";
+  const hasAvatar = !!(userDetail?.pictureProfile || user?.avatarUrl);
+  const avatarUrl = userDetail?.pictureProfile || user?.avatarUrl;
   const initials = stringAvatar(displayName);
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -36,8 +107,8 @@ export default function UserDropdown() {
         className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11 bg-gray-100 flex items-center justify-center text-lg font-bold text-gray-700">
-          {hasAvatar ? (
-            <img src={user.avatarUrl} width={44} height={44} alt="User avatar" className="object-cover w-11 h-11 rounded-full" />
+          {hasAvatar && avatarUrl ? (
+            <img src={avatarUrl} width={44} height={44} alt="User avatar" className="object-cover w-11 h-11 rounded-full" />
           ) : initials}
         </span>
         <span className="block mr-1 font-medium text-theme-sm">{displayName}</span>
@@ -84,7 +155,7 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              Edit profile
+              Chỉnh sửa hồ sơ
             </DropdownItem>
           </li>
           <li>
@@ -109,7 +180,7 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              Account settings
+              Cài đặt tài khoản
             </DropdownItem>
           </li>
           <li>
@@ -134,13 +205,19 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              Support
+              Hỗ trợ
             </DropdownItem>
           </li>
         </ul>
-        <Link
-          href="/signin"
-          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+        <button
+          onClick={async () => {
+            const signOut = useSessionStore.getState().signOut;
+            // Clear user detail from localStorage
+            saveUserDetailToStorage(null);
+            await signOut();
+            window.location.href = "/signin";
+          }}
+          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 w-full text-left"
         >
           <svg
             className="fill-gray-500 group-hover:fill-gray-700 dark:group-hover:fill-gray-300"
@@ -157,8 +234,8 @@ export default function UserDropdown() {
               fill=""
             />
           </svg>
-          Sign out
-        </Link>
+          Đăng xuất
+        </button>
       </Dropdown>
     </div>
   );

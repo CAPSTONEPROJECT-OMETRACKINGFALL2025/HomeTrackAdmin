@@ -61,11 +61,11 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(24);
     doc.setFont("helvetica", "bold");
-    doc.text("INVOICE", margin, 25);
+    doc.text("HÓA ĐƠN", margin, 25);
     
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
-    doc.text(`Order #${order.orderCode}`, pageWidth - margin, 25, { align: "right" });
+    doc.text(`Đơn hàng #${order.orderCode}`, pageWidth - margin, 25, { align: "right" });
 
     yPosition = 50;
 
@@ -78,7 +78,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     doc.setFont("helvetica", "normal");
     yPosition += 6;
     doc.setFontSize(9);
-    doc.text("Invoice Management System", margin, yPosition);
+    doc.text("Hệ thống Quản lý Hóa đơn", margin, yPosition);
     yPosition += 6;
     doc.text("Email: support@hometrack.com", margin, yPosition);
     yPosition += 6;
@@ -92,30 +92,30 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     if (order.user) {
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
-      doc.text("Bill To", margin, yPosition);
+      doc.text("Gửi Đến", margin, yPosition);
       yPosition += 8;
 
       doc.setFontSize(10);
       doc.setFont("helvetica", "normal");
       
       const userInfo = [
-        ["Name:", order.user.username],
+        ["Tên:", order.user.username],
         ["Email:", order.user.email],
       ];
 
       if (order.user.phone) {
-        userInfo.push(["Phone:", order.user.phone]);
+        userInfo.push(["Số điện thoại:", order.user.phone]);
       }
 
-      userInfo.push(["Role:", order.user.roleName]);
+      userInfo.push(["Vai trò:", order.user.roleName]);
 
       if (order.user.dateOfBirth) {
-        const dob = new Date(order.user.dateOfBirth).toLocaleDateString("en-US", {
+        const dob = new Date(order.user.dateOfBirth).toLocaleDateString("vi-VN", {
           year: "numeric",
           month: "long",
           day: "numeric",
         });
-        userInfo.push(["Date of Birth:", dob]);
+        userInfo.push(["Ngày sinh:", dob]);
       }
 
       userInfo.forEach(([label, value]) => {
@@ -135,18 +135,18 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     // Invoice Details Section
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text("Invoice Details", margin, yPosition);
+    doc.text("Chi Tiết Hóa Đơn", margin, yPosition);
     yPosition += 8;
 
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     
     const details = [
-      ["Invoice Number:", `#${order.orderCode}`],
-      ["Order ID:", order.id],
-      ["User ID:", order.userId],
-      ["Status:", order.status === 1 ? "Paid" : order.status === 0 ? "Pending" : "Cancelled"],
-      ["Plan Price ID:", order.planPriceId],
+      ["Số hóa đơn:", `#${order.orderCode}`],
+      ["ID Đơn hàng:", order.id],
+      ["ID Người dùng:", order.userId],
+      ["Trạng thái:", order.status === 1 ? "Đã thanh toán" : order.status === 0 ? "Chờ thanh toán" : "Đã hủy"],
+      ["ID Giá gói:", order.planPriceId],
     ];
 
     details.forEach(([label, value]) => {
@@ -161,7 +161,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     if (order.subscriptionId) {
       yPosition += 2;
       doc.setFont("helvetica", "bold");
-      doc.text("Subscription ID:", col1X, yPosition);
+      doc.text("ID Gói đăng ký:", col1X, yPosition);
       doc.setFont("helvetica", "normal");
       const subLines = doc.splitTextToSize(order.subscriptionId, contentWidth - 80);
       doc.text(subLines, col2X, yPosition);
@@ -175,7 +175,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     // Amount Section
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
-    doc.text("Amount Due", margin, yPosition);
+    doc.text("Số Tiền Phải Trả", margin, yPosition);
     yPosition += 10;
 
     doc.setFontSize(20);
@@ -195,7 +195,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     // Date Information
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text("Date Information", margin, yPosition);
+    doc.text("Thông Tin Ngày Tháng", margin, yPosition);
     yPosition += 8;
 
     doc.setFontSize(10);
@@ -210,7 +210,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     });
 
     doc.setFont("helvetica", "bold");
-    doc.text("Created At:", col1X, yPosition);
+    doc.text("Ngày tạo:", col1X, yPosition);
     doc.setFont("helvetica", "normal");
     doc.text(createdDate, col2X, yPosition);
     yPosition += 8;
@@ -224,7 +224,7 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
         minute: "2-digit",
       });
       doc.setFont("helvetica", "bold");
-      doc.text("Paid At:", col1X, yPosition);
+      doc.text("Ngày thanh toán:", col1X, yPosition);
       doc.setFont("helvetica", "normal");
       doc.text(paidDate, col2X, yPosition);
       yPosition += 8;
@@ -244,14 +244,14 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     doc.setFontSize(9);
     doc.setFont("helvetica", "italic");
     doc.setTextColor(128, 128, 128);
-    const footerText = "Thank you for your business!";
+    const footerText = "Cảm ơn bạn đã sử dụng dịch vụ!";
     doc.text(footerText, pageWidth / 2, pageHeight - 15, { align: "center" });
     
     doc.setFontSize(8);
-    doc.text("This is a computer-generated invoice.", pageWidth / 2, pageHeight - 10, { align: "center" });
+    doc.text("Đây là hóa đơn được tạo tự động bằng máy tính.", pageWidth / 2, pageHeight - 10, { align: "center" });
 
     // Save the PDF
-    const fileName = `Invoice-${order.orderCode}-${new Date().getTime()}.pdf`;
+    const fileName = `HoaDon-${order.orderCode}-${new Date().getTime()}.pdf`;
     doc.save(fileName);
   } catch (error) {
     console.error("Error generating PDF:", error);
