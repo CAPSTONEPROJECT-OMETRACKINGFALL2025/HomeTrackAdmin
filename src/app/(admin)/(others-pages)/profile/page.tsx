@@ -4,7 +4,6 @@ import { useSessionStore } from "@/store/session";
 import UserAddressCard from "@/components/user-profile/UserAddressCard";
 import UserInfoCard from "@/components/user-profile/UserInfoCard";
 import UserMetaCard from "@/components/user-profile/UserMetaCard";
-import { Metadata } from "next";
 import React from "react";
 
 

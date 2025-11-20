@@ -6,7 +6,21 @@ import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 
-export default function UserAddressCard({ user }: { user: any }) {
+type UserWithAddress = {
+  raw?: {
+    address?: {
+      country?: string;
+      cityState?: string;
+      postalCode?: string;
+      taxId?: string;
+      [key: string]: unknown;
+    };
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+};
+
+export default function UserAddressCard({ user }: { user: UserWithAddress | null }) {
   const { isOpen, openModal, closeModal } = useModal();
   const address = user?.raw?.address || {};
   const country = address.country || "Unknown";

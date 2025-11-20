@@ -40,14 +40,6 @@ export const generateInvoicePDF = async (order: OrderDetail) => {
     const col1X = margin;
     const col2X = margin + 80;
 
-    // Helper function to add text with word wrap
-    const addText = (text: string, x: number, y: number, maxWidth: number, fontSize: number = 10, align: "left" | "center" | "right" = "left") => {
-      doc.setFontSize(fontSize);
-      const lines = doc.splitTextToSize(text, maxWidth);
-      doc.text(lines, x, y, { align });
-      return y + (lines.length * fontSize * 0.4);
-    };
-
     // Helper function to draw a line
     const drawLine = (y: number) => {
       doc.setDrawColor(200, 200, 200);

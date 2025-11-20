@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Modal } from "@/components/ui/modal";
 import Button from "@/components/ui/button/Button";
 import { useModal } from "@/hooks/useModal";
-import { EyeIcon, TrashBinIcon, CalenderIcon, TimeIcon, MoreDotIcon, ChevronLeftIcon, ArrowRightIcon, DownloadIcon, UserIcon, MailIcon } from "@/icons";
+import { EyeIcon, CalenderIcon, TimeIcon, MoreDotIcon, ChevronLeftIcon, ArrowRightIcon, DownloadIcon, UserIcon, MailIcon } from "@/icons";
 import { api } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errorHandler";
 import { Dropdown } from "@/components/ui/dropdown/Dropdown";

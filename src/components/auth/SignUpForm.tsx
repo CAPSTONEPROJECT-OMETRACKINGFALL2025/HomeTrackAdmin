@@ -69,8 +69,9 @@ export default function SignUpForm() {
       // điều hướng: về login và mang theo email
       const q = new URLSearchParams({ email });
       router.replace(`/login?${q.toString()}`);
-    } catch (err: any) {
-      setError(err?.message || "Đăng ký thất bại");
+    } catch (err: unknown) {
+      const errorMessage = err && typeof err === "object" && "message" in err ? String(err.message) : "Đăng ký thất bại";
+      setError(errorMessage);
     } finally {
       setSubmitting(false);
     }

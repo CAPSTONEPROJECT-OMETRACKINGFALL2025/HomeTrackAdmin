@@ -4,7 +4,7 @@ export type Query = Record<string, string | number | boolean | null | undefined>
 
 export interface RequestOptions {
   headers?: Record<string, string>;
-  body?: any;
+  body?: unknown;
   query?: Query;
   timeoutMs?: number;
   signal?: AbortSignal | null;
@@ -13,7 +13,8 @@ export interface RequestOptions {
 export interface ApiErrorPayload {
   message?: string;
   code?: string | number;
-  [k: string]: any;
+  error?: string;
+  [k: string]: unknown;
 }
 
 export class ApiError extends Error {
@@ -108,7 +109,7 @@ function safeJson(text: string) {
   }
 }
 
-async function request<T = any>(
+async function request<T = unknown>(
   method: HttpMethod,
   endpoint: string,
   options: RequestOptions = {}
@@ -132,7 +133,7 @@ async function request<T = any>(
       if (ct && ct.includes("application/json") && typeof body === "object") {
         init.body = JSON.stringify(body);
       } else {
-        init.body = body as any;
+        init.body = body as string | FormData | Blob;
       }
     }
 
@@ -145,38 +146,41 @@ async function request<T = any>(
       // Check for .error field first, then .message, then fallback
       let message = `Request failed with status ${res.status}`;
       if (parsed && typeof parsed === "object") {
-        const errorObj = parsed as any;
+        const errorObj = parsed as Record<string, unknown>;
         if (errorObj.error) {
           message = String(errorObj.error);
         } else if (errorObj.message) {
           message = String(errorObj.message);
         }
       }
-      throw new ApiError(message, res.status, isJson ? (parsed as any) : { raw: resText });
+      throw new ApiError(message, res.status, isJson ? (parsed as ApiErrorPayload) : { raw: resText });
     }
 
     if (res.status === 204 || !resText) return null as T;
     return parsed as T;
-  } catch (err: any) {
-    if (err?.name === "AbortError") throw new ApiError("Request timeout/aborted", 0);
+  } catch (err: unknown) {
+    if (err && typeof err === "object" && "name" in err && err.name === "AbortError") {
+      throw new ApiError("Request timeout/aborted", 0);
+    }
     if (err instanceof ApiError) throw err;
-    throw new ApiError(err?.message || "Network error", 0);
+    const errorMessage = err && typeof err === "object" && "message" in err ? String(err.message) : "Network error";
+    throw new ApiError(errorMessage, 0);
   } finally {
     clearTimeout(timeout);
   }
 }
 
 export const api = {
-  get<T = any>(endpoint: string, query?: Query, opts?: Omit<RequestOptions, "query" | "body">) {
+  get<T = unknown>(endpoint: string, query?: Query, opts?: Omit<RequestOptions, "query" | "body">) {
     return request<T>("GET", endpoint, { ...opts, query });
   },
-  post<T = any>(endpoint: string, body?: any, opts?: Omit<RequestOptions, "body">) {
+  post<T = unknown>(endpoint: string, body?: unknown, opts?: Omit<RequestOptions, "body">) {
     return request<T>("POST", endpoint, { ...opts, body });
   },
-  put<T = any>(endpoint: string, body?: any, opts?: Omit<RequestOptions, "body">) {
+  put<T = unknown>(endpoint: string, body?: unknown, opts?: Omit<RequestOptions, "body">) {
     return request<T>("PUT", endpoint, { ...opts, body });
   },
-  del<T = any>(endpoint: string, opts?: RequestOptions) {
+  del<T = unknown>(endpoint: string, opts?: RequestOptions) {
     return request<T>("DELETE", endpoint, opts);
   },
 };

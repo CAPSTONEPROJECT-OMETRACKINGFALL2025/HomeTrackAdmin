@@ -55,8 +55,9 @@ export default function LoginForm() {
       }
 
       router.replace("/"); // hoặc "/dashboard"
-    } catch (err: any) {
-      setError(err?.message || "Đăng nhập thất bại");
+    } catch (err: unknown) {
+      const errorMessage = err && typeof err === "object" && "message" in err ? String(err.message) : "Đăng nhập thất bại";
+      setError(errorMessage);
     } finally {
       setSubmitting(false);
     }

@@ -19,7 +19,15 @@ function getNames(emailOrUser: string) {
   return [parts[0] || "User", (parts[1] || "").charAt(0).toUpperCase() + (parts[1] || '').slice(1)];
 }
 
-export default function UserInfoCard({ user }: { user: any }) {
+type UserInfo = {
+  email?: string | null;
+  username?: string | null;
+  phone?: string | null;
+  dateOfBirth?: string | null;
+  [key: string]: unknown;
+};
+
+export default function UserInfoCard({ user }: { user: UserInfo | null }) {
   const { isOpen, openModal, closeModal } = useModal();
   const email = user?.email || "unknown@email.com";
   const username = user?.username || user?.email?.split("@")[0] || "Unknown";

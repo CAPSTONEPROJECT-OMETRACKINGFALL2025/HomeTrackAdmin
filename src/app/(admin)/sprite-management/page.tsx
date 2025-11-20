@@ -66,16 +66,6 @@ export default function SpriteManagement() {
     }
   };
 
-  const fetchRoomItemDetail = async (id: string) => {
-    try {
-      const response = await api.get<RoomItem>(`/api/RoomItem/${id}`);
-      return response;
-    } catch (error) {
-      console.error("Failed to fetch room item detail:", error);
-      const errorMessage = getErrorMessage(error, "Không thể tải chi tiết vật phẩm phòng");
-      throw new Error(errorMessage);
-    }
-  };
 
   const openAdd = () => {
     setEditing(null);

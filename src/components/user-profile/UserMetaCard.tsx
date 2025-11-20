@@ -14,10 +14,17 @@ function stringAvatar(name: string) {
   return initials.toUpperCase();
 }
 
-export default function UserMetaCard({ user }: { user: any }) {
+type UserMeta = {
+  username?: string | null;
+  email?: string | null;
+  roleId?: number | null;
+  avatarUrl?: string | null;
+  [key: string]: unknown;
+};
+
+export default function UserMetaCard({ user }: { user: UserMeta | null }) {
   const { isOpen, openModal, closeModal } = useModal();
-  const displayName = user?.username || user?.email?.split("@")[0] || "Guest";
-  const email = user?.email || "unknown@email.com";
+  const displayName = user?.username || (user?.email ? String(user.email).split("@")[0] : "Guest");
   const hasAvatar = !!user?.avatarUrl;
   const initials = stringAvatar(displayName);
   const role = user?.roleId === 1 ? "Admin" : (user?.roleId === 2 ? "Staff" : "User");
@@ -35,7 +42,8 @@ export default function UserMetaCard({ user }: { user: any }) {
             <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800 bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-700">
               {/* Show initials if no avatar image */}
               {hasAvatar ? (
-                <img src={user.avatarUrl} alt="user avatar" width={80} height={80} className="object-cover w-20 h-20 rounded-full" />
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={user.avatarUrl || ""} alt="user avatar" width={80} height={80} className="object-cover w-20 h-20 rounded-full" />
               ) : initials}
             </div>
             <div className="order-3 xl:order-2">

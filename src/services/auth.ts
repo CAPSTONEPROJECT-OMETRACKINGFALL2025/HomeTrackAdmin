@@ -11,11 +11,28 @@ export async function login(payload: LoginPayload): Promise<{
     username?: string | null;
     roleId?: number | null;
     isPremium?: boolean | null;
-    [k: string]: any;
+    [k: string]: unknown;
   };
 }> {
   // api.post trả về body đã parse — KHÔNG phải axios response
-  const response = await api.post<any>("/auth/login", payload);
+  const response = await api.post<{
+    token?: string;
+    accessToken?: string;
+    user?: {
+      userId?: string | null;
+      email?: string | null;
+      username?: string | null;
+      roleId?: number | null;
+      isPremium?: boolean | null;
+      [k: string]: unknown;
+    };
+    userId?: string | null;
+    email?: string | null;
+    username?: string | null;
+    roleId?: number | null;
+    isPremium?: boolean | null;
+    [k: string]: unknown;
+  }>("/auth/login", payload);
   const res = response.data ?? response;
 
   const token: string = res?.token ?? res?.accessToken ?? "";
@@ -48,10 +65,14 @@ export type RegisterPayload = {
 
 export async function register(payload: RegisterPayload): Promise<{
   message?: string;
-  user?: any;
+  user?: Record<string, unknown>;
 }> {
   // dùng endpoint giống RN của bạn
-  const res = await api.post<any>("/api/Auth/register", payload);
+  const res = await api.post<{
+    message?: string;
+    user?: Record<string, unknown>;
+    [k: string]: unknown;
+  }>("/api/Auth/register", payload);
   // backend của bạn có thể trả { message, user, ... } hoặc 204
-  return (res ?? {}) as { message?: string; user?: any };
+  return (res ?? {}) as { message?: string; user?: Record<string, unknown> };
 }

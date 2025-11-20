@@ -14,7 +14,7 @@ export type SessionUser = {
   roleId?: number | null;
   token?: string | null;
   plan: Plan;
-  raw?: any;
+  raw?: Record<string, unknown>;
 };
 
 type SignInPayload =
@@ -27,7 +27,7 @@ type SignInPayload =
         username?: string | null;
         roleId?: number | null;
         isPremium?: boolean | null;
-        [k: string]: any;
+        [k: string]: unknown;
       };
     };
 
@@ -76,7 +76,19 @@ async function persist(u: SessionUser | null) {
   setAuthTokenStatic(u.token ?? null);
 }
 
-function readPersisted(): any | null {
+function readPersisted(): {
+  token?: string;
+  user?: {
+    userId?: string;
+    email?: string | null;
+    username?: string | null;
+    roleId?: number | null;
+    isPremium?: boolean;
+    raw?: Record<string, unknown> | null;
+  };
+  userId?: string;
+  [k: string]: unknown;
+} | null {
   if (typeof localStorage === "undefined") return null;
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return null;
