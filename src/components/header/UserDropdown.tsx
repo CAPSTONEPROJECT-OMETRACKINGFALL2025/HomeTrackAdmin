@@ -86,8 +86,8 @@ export default function UserDropdown() {
   const displayUser = userDetail || user;
   const displayName = displayUser?.username || displayUser?.email?.split("@")[0] || "Khách";
   const displayEmail = displayUser?.email || "chưa có email";
-  const hasAvatar = !!(userDetail?.pictureProfile || user?.avatarUrl);
-  const avatarUrl = userDetail?.pictureProfile || user?.avatarUrl;
+  const hasAvatar = !!userDetail?.pictureProfile;
+  const avatarUrl = userDetail?.pictureProfile;
   const initials = stringAvatar(displayName);
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
