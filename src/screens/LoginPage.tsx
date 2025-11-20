@@ -1,5 +1,6 @@
 // app/login/page.tsx
 import SignInForm from "@/components/auth/SignInForm";
+import Link from "next/link";
 
 export const metadata = {
   title: "Login | HomeTrack Admin",
@@ -11,12 +12,12 @@ export default function LoginPage() {
     <main className="min-h-svh bg-gradient-to-br from-orange-500 via-orange-400 to-orange-300 p-4">
       {/* Top-right back/home (optional) */}
       <div className="mx-auto max-w-6xl">
-        <a
+        <Link
           href="/"
           className="float-right mb-3 inline-flex items-center gap-2 rounded-xl"
         >
           <span aria-hidden>⌂</span> Về trang chủ
-        </a>
+        </Link>
       </div>
 
       <div

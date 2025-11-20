@@ -25,9 +25,17 @@ type User = {
 
 type UserDetail = User & {
   password?: string;
-  role?: any;
+  role?: {
+    roleId: number;
+    roleName: string;
+    [key: string]: unknown;
+  };
   otpGeneratedAt?: string;
-  houses?: any[];
+  houses?: Array<{
+    houseId: string;
+    name: string;
+    [key: string]: unknown;
+  }>;
 };
 
 export default function UserManagement() {
@@ -197,18 +205,6 @@ export default function UserManagement() {
     setImageErrors((prev) => new Set(prev).add(userId));
   };
 
-  const formatDateShort = (dateString: string) => {
-    if (!dateString) return "N/A";
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } catch {
-      return dateString;
-    }
-  };
 
   // Filter and pagination logic
   const filteredUsers = useMemo(() => {
@@ -469,9 +465,12 @@ export default function UserManagement() {
                       <td className="px-4 lg:px-6 py-4 w-[180px] max-w-[180px]">
                         <div className="flex items-center gap-2 min-w-0">
                           {user.pictureProfile && !imageErrors.has(user.userId) ? (
+                            // eslint-disable-next-line @next/next/no-img-element
                             <img 
                               src={user.pictureProfile} 
                               alt={user.username}
+                              width={32}
+                              height={32}
                               className="h-8 w-8 rounded-full object-cover flex-shrink-0"
                               onError={() => handleImageError(user.userId)}
                             />
@@ -655,8 +654,11 @@ export default function UserManagement() {
               <div className="flex items-start gap-6">
                 <div className="relative">
                   {userDetail.pictureProfile && !imageErrors.has(userDetail.userId) ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img 
-                      src={userDetail.pictureProfile} 
+                      src={userDetail.pictureProfile}
+                      width={96}
+                      height={96} 
                       alt={userDetail.username}
                       className="h-24 w-24 rounded-full object-cover border-4 border-white/20 dark:border-gray-800/20"
                       onError={() => handleImageError(userDetail.userId)}

@@ -8,7 +8,7 @@ export const getErrorMessage = (error: unknown, defaultMessage: string = "An err
   if (error instanceof ApiError) {
     // Check for .error field in payload (most common case)
     if (error.payload && typeof error.payload === "object") {
-      const payload = error.payload as any;
+      const payload = error.payload as Record<string, unknown>;
       // Check for .error field first
       if (payload.error) {
         return String(payload.error);

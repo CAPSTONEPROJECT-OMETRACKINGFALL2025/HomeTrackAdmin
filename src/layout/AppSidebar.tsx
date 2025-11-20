@@ -5,18 +5,14 @@ import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
-  PageIcon,
-  PieChartIcon,
   PlugInIcon,
   TableIcon,
   UserCircleIcon,
 } from "../icons/index";
-import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -29,7 +25,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Bảng Điều Khiển",
-    path: "/dashboard",
+    path: "/",
   },
   {
     icon: <UserCircleIcon />,

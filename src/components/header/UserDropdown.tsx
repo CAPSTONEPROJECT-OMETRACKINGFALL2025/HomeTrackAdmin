@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
@@ -108,6 +106,7 @@ export default function UserDropdown() {
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11 bg-gray-100 flex items-center justify-center text-lg font-bold text-gray-700">
           {hasAvatar && avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img src={avatarUrl} width={44} height={44} alt="User avatar" className="object-cover w-11 h-11 rounded-full" />
           ) : initials}
         </span>
