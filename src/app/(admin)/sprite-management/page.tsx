@@ -199,7 +199,7 @@ export default function SpriteManagement() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Quản lý Sprite</h1>
+        <h1 className="text-xl font-bold dark:text-white/90">Quản lý Sprite</h1>
         <Button size="sm" onClick={openAdd} className="flex items-center gap-2">
           <PlusIcon className="w-4 h-4 flex-shrink-0 min-w-[1rem] min-h-[1rem]" />
           Thêm Vật Phẩm

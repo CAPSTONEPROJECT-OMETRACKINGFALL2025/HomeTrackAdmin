@@ -292,7 +292,7 @@ export default function InvoiceManagement() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Quản lý Hóa Đơn</h1>
+        <h1 className="text-xl font-bold dark:text-white/90">Quản lý Hóa Đơn</h1>
       </div>
 
       {/* Filters Section */}

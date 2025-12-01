@@ -282,7 +282,7 @@ export default function UserManagement() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Quản lý Người Dùng</h1>
+        <h1 className="text-xl font-bold dark:text-white/90">Quản lý Người Dùng</h1>
       </div>
 
       {/* Filters Section */}
