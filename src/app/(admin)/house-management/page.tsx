@@ -4,7 +4,6 @@ import { Modal } from "@/components/ui/modal";
 import Button from "@/components/ui/button/Button";
 import { useModal } from "@/hooks/useModal";
 import { PencilIcon, TrashBinIcon, MoreDotIcon, ChevronLeftIcon, ArrowRightIcon, PlusIcon } from "@/icons";
-import { api } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errorHandler";
 import { Dropdown } from "@/components/ui/dropdown/Dropdown";
 import { DropdownItem } from "@/components/ui/dropdown/DropdownItem";
@@ -25,7 +24,7 @@ const initialHouses: House[] = [
 
 export default function HouseManagement() {
   const [houses, setHouses] = useState<House[]>(initialHouses);
-  const [loading, setLoading] = useState(false);
+  const loading = false; // TODO: Implement loading state when API is integrated
   const [editing, setEditing] = useState<House | null>(null);
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
   const modal = useModal();

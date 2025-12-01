@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { api } from "@/lib/api";
-import { getErrorMessage } from "@/lib/errorHandler";
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 
@@ -246,7 +245,7 @@ export default function Dashboard() {
     },
     tooltip: {
       y: {
-        formatter: (val: number, opts: any) => {
+        formatter: (val: number, opts: { seriesIndex?: number }) => {
           if (opts.seriesIndex === 0) return `${val} đơn hàng`;
           return `${val.toLocaleString("vi-VN")} VND`;
         },
@@ -261,7 +260,11 @@ export default function Dashboard() {
     },
   };
 
-  const monthlyOrdersSeries: any = [
+  const monthlyOrdersSeries: Array<{
+    name: string;
+    type?: string;
+    data: number[];
+  }> = [
     {
       name: "Số đơn hàng",
       type: "column",
