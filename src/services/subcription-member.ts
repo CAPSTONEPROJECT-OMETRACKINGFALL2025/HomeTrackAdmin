@@ -1,14 +1,28 @@
 // src/services/subcription-member.ts
 import { api } from "@/lib/api";
 
-export async function confirmMemberInvite(payload: { email: string; planId: string }) {
-  const response = await api.post<{ message?: string; [k: string]: unknown }>(
-    "/api/Subcription",
-    payload,
-  );
+export type ConfirmMemberInviteResponse = {
+  message?: string;
+  [k: string]: unknown;
+};
 
-  // giống pattern services/auth.ts của bạn: có thể là response.data hoặc body trực tiếp
-  const res: any = (response as any)?.data ?? response;
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null;
+}
 
+function unwrapApiResponse<T>(res: unknown): T {
+  // api.post của bạn đôi khi trả { data }, đôi khi trả body trực tiếp
+  if (isRecord(res) && "data" in res) {
+    return (res as { data: T }).data;
+  }
+  return res as T;
+}
+
+export async function confirmMemberInvite(payload: {
+  email: string;
+  planId: string;
+}): Promise<ConfirmMemberInviteResponse> {
+  const raw = await api.post<ConfirmMemberInviteResponse>("/api/Subcription", payload);
+  const res = unwrapApiResponse<ConfirmMemberInviteResponse>(raw);
   return res ?? { message: "OK" };
 }
