@@ -89,7 +89,7 @@ export async function register(payload: RegisterPayload): Promise<{
     message?: string;
     user?: Record<string, unknown>;
     [k: string]: unknown;
-  }>("/api/Auth/register", payload);
+  }>("/Auth/register", payload);
   // backend của bạn có thể trả { message, user, ... } hoặc 204
   return (res ?? {}) as { message?: string; user?: Record<string, unknown> };
 }
