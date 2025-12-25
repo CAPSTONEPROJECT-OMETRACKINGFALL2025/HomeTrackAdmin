@@ -99,12 +99,13 @@ export default function RegisterMemberClient() {
         phone: "",
       });
 
-      const loginRes = await login({ email: emailParam, password: pw });
-      await signIn({ token: loginRes.token, user: loginRes.user });
-
-      await confirmMemberInvite({ email: emailParam, planId });
-
-      router.replace(`/confirm-member?${q}&done=1`);
+      // Redirect to verify email page with password in query params
+      const verifyParams = new URLSearchParams({
+        email: emailParam,
+        planId,
+        password: pw, // Pass password for auto login after verification
+      });
+      router.replace(`/verify-email?${verifyParams.toString()}`);
     } catch (err: unknown) {
       setError(toErrorMessage(err));
     } finally {

@@ -93,3 +93,23 @@ export async function register(payload: RegisterPayload): Promise<{
   // backend của bạn có thể trả { message, user, ... } hoặc 204
   return (res ?? {}) as { message?: string; user?: Record<string, unknown> };
 }
+
+/* ---------- CHECK OTP EMAIL ---------- */
+
+export type CheckOtpEmailPayload = {
+  otpRequest: string;
+  email: string;
+};
+
+export async function checkOtpEmail(payload: CheckOtpEmailPayload): Promise<{
+  success?: boolean;
+  message?: string;
+  [k: string]: unknown;
+}> {
+  const res = await api.post<{
+    success?: boolean;
+    message?: string;
+    [k: string]: unknown;
+  }>("/Auth/check-otp-email", payload);
+  return (res ?? {}) as { success?: boolean; message?: string };
+}
