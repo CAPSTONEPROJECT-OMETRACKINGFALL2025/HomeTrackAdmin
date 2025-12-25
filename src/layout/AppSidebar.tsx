@@ -6,9 +6,11 @@ import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
   ChevronDownIcon,
+  DollarLineIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
+  PageIcon,
   PlugInIcon,
   TableIcon,
   UserCircleIcon,
@@ -43,8 +45,13 @@ const navItems: NavItem[] = [
     path: "/house-management",
   },
   {
-    icon: <PlugInIcon />,
-    name: "Quản lý Gói Đăng Ký",
+    icon: <PlugInIcon  />,
+    name: "Quản lý Gói",
+    path: "/plan-management",
+  },
+  {
+    icon: <DollarLineIcon />,
+    name: "Quản lý giá",
     path: "/subscription-management",
   },
   {
