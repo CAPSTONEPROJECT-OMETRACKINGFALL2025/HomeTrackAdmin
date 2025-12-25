@@ -22,7 +22,7 @@ export async function confirmMemberInvite(payload: {
   email: string;
   planId: string;
 }): Promise<ConfirmMemberInviteResponse> {
-  const raw = await api.post<ConfirmMemberInviteResponse>("/api/Subcription", payload);
+  const raw = await api.post<ConfirmMemberInviteResponse>("/Subcription", payload);
   const res = unwrapApiResponse<ConfirmMemberInviteResponse>(raw);
   return res ?? { message: "OK" };
 }
